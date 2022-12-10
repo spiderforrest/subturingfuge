@@ -36,7 +36,7 @@ export async function subscribeToUserJoins(gameId, handler) {}
 
 export async function createGame(gameCode) {}
 
-export async function sendPacket(packet, gameStatus) {}
+export async function sendPacket(packet, gameStage) {}
 
 // client function
 export async function subscribeToHostPackets(gameCode, handler) {}
