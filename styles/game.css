@@ -21,3 +21,8 @@ main {
     grid-row: 3 / 4;
     border: thick double black;
 }
+
+.flexbox-column-centered {
+    display: flex;
+    flex-flow: column nowrap;
+}
