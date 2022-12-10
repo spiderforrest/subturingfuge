@@ -28,3 +28,19 @@ export async function signOutUser() {
 }
 
 /* Data functions */
+
+// host functions:
+export async function subscribeToUserResponses(user, gameId) {}
+
+export async function subscribeToUserJoins(gameId) {}
+
+export async function createGame(gameCode) {}
+
+export async function sendPacket(packet, status_) {}
+
+// client function
+export async function subscribeToHostPackets(gameCode) {}
+
+export async function joinGame(gameCode) {}
+
+export async function sendResponse(gameCode, response, guess, prompt_) {}
