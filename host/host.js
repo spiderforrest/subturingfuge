@@ -72,36 +72,37 @@ function subscribeToUserResponsesHandler(packet) {
 // when the next button is clicked, check gameStage to determine what needs to be ran
 nextButton.addEventListener('click', () => {
     switch (gameStage) {
-        // prompt stage
+        // end prompt stage
         case 'prompt':
             // call the function
-            promptStage();
+            responseStage();
             // move to the response stage
             gameStage = 'response';
             break;
-        // response stage
+        // end response stage
         case 'response':
-            responseStage();
+            guessesStage();
             gameStage = 'guesses';
             break;
-        // guesses stage
+        // end guesses stage
         case 'guesses':
-            guessesStage();
+            resultsStage();
             gameStage = 'results';
             break;
-        // round results stage
+        // end round results stage
         case 'results':
-            resultsStage();
+            // TODO: check if there's more prompts and set to response
             gameStage = 'over';
-            break;
-        // end game page
-        case 'over':
             endGame();
             break;
     }
 });
-function promptStage() {}
+
+// main game functions, they run at the START of the stage they're named
+// send out packet with prompts for everyone
 function responseStage() {}
+// send packet with everyone's responses for guessing
 function guessesStage() {}
+// tally score and send packet with all everyone's choices and real answers
 function resultsStage() {}
 function endGame() {}
