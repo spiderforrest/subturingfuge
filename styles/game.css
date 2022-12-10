@@ -1,5 +1,23 @@
 main {
     display: grid;
     grid-template-rows: 1fr 4fr 1fr;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: 2fr 4fr 22fr;
+}
+
+.ui-box-center {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    border: thick double black;
+}
+
+.ui-box-left-side {
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+    border: thick double black;
+}
+
+.ui-box-bottom {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    border: thick double black;
 }
