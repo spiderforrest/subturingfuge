@@ -30,17 +30,17 @@ export async function signOutUser() {
 /* Data functions */
 
 // host functions:
-export async function subscribeToUserResponses(user, gameId) {}
+export async function subscribeToUserResponses(user, gameId, handler) {}
 
-export async function subscribeToUserJoins(gameId) {}
+export async function subscribeToUserJoins(gameId, handler) {}
 
 export async function createGame(gameCode) {}
 
-export async function sendPacket(packet, status_) {}
+export async function sendPacket(packet, gameStatus) {}
 
 // client function
-export async function subscribeToHostPackets(gameCode) {}
+export async function subscribeToHostPackets(gameCode, handler) {}
 
 export async function joinGame(gameCode) {}
 
-export async function sendResponse(gameCode, response, guess, prompt_) {}
+export async function sendResponse(gameCode, response, guess, promptText) {}
