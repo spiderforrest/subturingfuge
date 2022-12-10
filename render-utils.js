@@ -59,3 +59,36 @@ export function renderPromptEntryUI() {
 
     return uiBox;
 }
+
+export function renderResponseEntryUI(promptText) {
+    // create html elements
+    const uiBox = document.createElement('div');
+    const promptLabel = document.createElement('label');
+    const responseLabel = document.createElement('label');
+    const promptDisplay = document.createElement('h2');
+    const responseInput = document.createElement('textarea');
+    const submitButton = document.createElement('button');
+
+    // set properties of html elements
+    promptLabel.textContent = 'The prompt is: ';
+    promptDisplay.textContent = promptText;
+    responseLabel.textContent = 'Enter your response: ';
+    submitButton.textContent = 'Submit';
+    responseInput.id = 'response-input';
+    responseInput.rows = '5';
+    responseInput.cols = '40';
+
+    // apply css classes
+    uiBox.classList.add('ui-box-center');
+    uiBox.classList.add('flexbox-column-centered');
+
+    // event handler for clicking submit button
+    // submitButton.addEventHandler();
+
+    // append all the stuff to other stuff and then to the div we're returning
+    promptLabel.append(promptDisplay);
+    responseLabel.append(responseInput);
+    uiBox.append(promptLabel, responseLabel, submitButton);
+
+    return uiBox;
+}
