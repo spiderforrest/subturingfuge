@@ -13,8 +13,6 @@ const startGameButton = document.getElementById('start-game-button');
 const nextButton = document.getElementById('next-button');
 
 // state
-// on gameStage: i wish we had enums but here's the stage key:
-// 0: setup, 1: prompt, 2: response, 3: guesses, 4: round results, 5: over
 let gameCode, gameStage;
 const playerArray = [];
 const promptArray = [];
@@ -58,7 +56,7 @@ function subscribeToUserJoinsHandler(packet) {
 function subscribeToUserResponsesHandler(packet) {
     switch (gameStage) {
         // prompt stage
-        case 0:
+        case 'prompt':
             // just add the user's new prompt
             promptArray.push(packet.prompt_text);
             // TODO: add a visible counter for everyone, which would mean a packet needs to get sent out here
@@ -75,16 +73,31 @@ function subscribeToUserResponsesHandler(packet) {
 nextButton.addEventListener('click', () => {
     switch (gameStage) {
         // prompt stage
-        case 1:
+        case 'prompt':
             // call the function
             promptStage();
             // move to the response stage
-            gameStage = 2;
+            gameStage = 'response';
             break;
         // response stage
+        case 'response':
+            responseStage();
+            gameStage = 'guesses';
+            break;
         // guesses stage
+        case 'guesses':
+            guessesStage();
+            gameStage = 'results';
+            break;
         // round results stage
+        case 'results':
+            resultsStage();
+            gameStage = 'over';
+            break;
         // end game page
+        case 'over':
+            endGame();
+            break;
     }
 });
 function promptStage() {}
