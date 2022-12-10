@@ -1,7 +1,8 @@
 main {
+    /* width: 100%; */
     display: grid;
     grid-template-rows: 1fr 4fr 1fr;
-    grid-template-columns: 2fr 4fr 22fr;
+    grid-template-columns: 2fr 4fr 2fr;
 }
 
 .ui-box-center {

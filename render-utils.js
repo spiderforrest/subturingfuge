@@ -26,7 +26,7 @@ export function renderClientSetupUI() {
     uiBox.classList.add('flexbox-column-centered');
 
     // event handler for clicking submit button
-    submitButton.addEventHandler();
+    // submitButton.addEventHandler();
 
     // append all the stuff to other stuff and then to the div we're returning
     usernameLabel.append(usernameInput);
@@ -40,19 +40,22 @@ export function renderPromptEntryUI() {
     // create html elements
     const uiBox = document.createElement('div');
     const promptLabel = document.createElement('label');
-    const promptInput = document.createElement('input');
+    const promptInput = document.createElement('textarea');
     const submitButton = document.createElement('button');
     // set properties of html elements
     promptLabel.textContent = 'Prompt: ';
     submitButton.textContent = 'Submit';
     promptInput.id = 'prompt-input';
-    promptInput.type = 'text';
+    promptInput.rows = '5';
+    promptInput.cols = '40';
     // apply css classes
     uiBox.classList.add('ui-box-center');
     uiBox.classList.add('flexbox-column-centered');
     // event handler for clicking submit button
-    submitButton.addEventHandler();
+    // submitButton.addEventHandler();
     // append all the stuff to other stuff and then to the div we're returning
     promptLabel.append(promptInput);
     uiBox.append(promptLabel, submitButton);
+
+    return uiBox;
 }
