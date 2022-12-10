@@ -5,25 +5,29 @@ import {
     sendPacket,
 } from '../fetch-utils.js';
 
-import { renderHostHeader, renderHostSetup } from '../render-utils.js';
+import { renderHostSetup, renderPromptPage } from '../render-utils.js';
+
+// dom
+const startGameButton = document.getElementById('start-game-button');
 
 // state
 let gameCode;
 
 // initalization
-self.addEventListener('load', () => {
-    // add controls to the host page
-    modifyHostHeader();
+self.addEventListener('load', async () => {
     // make a code
     gameCode = generateGameCode();
     // create a game
-    createGame(gameCode);
+    await createGame(gameCode);
     // start listening for user joins
-    subscribeToUserJoins();
+    await subscribeToUserJoins(gameCode);
+});
+
+startGameButton.addEventListener('click', () => {
+    renderPromptPage();
 });
 
 // thanks stackoverflow-might need to add something to make sure it's 4 chars?
 function generateGameCode() {
     return Math.random().toString(36).slice(2, 6);
 }
-function modifyHostHeader() {}
