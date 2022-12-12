@@ -131,3 +131,63 @@ export function renderRoomCodeUI(roomCode) {
     // return uiBox
     return uiBox;
 }
+
+export function renderClientRoomSettingsUI(settings) {
+    // create elements
+    const uiBox = document.createElement('div');
+    const h2 = document.createElement('h2');
+    const timerLabel = document.createElement('p');
+    const roundsLabel = document.createElement('p');
+    const waitMessage = document.createElement('h1');
+
+    // set contents
+    h2.textContent = 'Game Settings';
+    timerLabel.textContent = 'Timer: not yet buddy';
+    roundsLabel.textContent = 'Rounds: no';
+    waitMessage.textContent = 'WAITING FOR HOST TO START GAME';
+
+    // apply css
+    uiBox.classList.add('ui-box-center');
+    uiBox.classList.add('flexbox-column-centered');
+
+    // append
+    uiBox.append(h2, timerLabel, roundsLabel, waitMessage);
+
+    // return uiBox
+    return uiBox;
+}
+
+export function renderHostRoomSettingsUI() {
+    // create elements
+    const uiBox = document.createElement('div');
+    const h2 = document.createElement('h2');
+    const timerLabel = document.createElement('label');
+    const timerInput = document.createElement('input');
+    const roundsLabel = document.createElement('label');
+    const roundsInput = document.createElement('input');
+    const startGameButton = document.createElement('button');
+
+    // set contents
+    h2.textContent = 'Game Settings';
+    timerLabel.textContent = 'Timer: (dummied out)';
+    timerInput.disabled = true;
+    roundsLabel.textContent = 'Rounds: (dummied out)';
+    roundsInput.disabled = true;
+    startGameButton.textContent = 'START GAME';
+
+    // event listener
+    startGameButton.addEventListener('click', async () => {
+        console.log('game start button clicked');
+        // add actual functionality here please
+    });
+
+    // apply css
+    uiBox.classList.add('ui-box-center');
+    uiBox.classList.add('flexbox-column-centered');
+
+    // append
+    uiBox.append(h2, timerLabel, timerInput, roundsLabel, roundsInput, startGameButton);
+
+    // return uiBox
+    return uiBox;
+}
