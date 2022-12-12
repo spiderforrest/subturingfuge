@@ -191,3 +191,60 @@ export function renderHostRoomSettingsUI() {
     // return uiBox
     return uiBox;
 }
+
+//async later probably
+export function renderWhoSaidWhatUI(playerList, responseList) {
+    // create elements
+    const uiBox = document.createElement('div');
+    const h2 = document.createElement('h2');
+    const submitButton = document.createElement('button');
+    // set contents
+    h2.textContent = 'Guess who said what!';
+    submitButton.textContent = 'Submit';
+    submitButton.id = 'guess-submit-button';
+    // event listener
+    submitButton.addEventListener('click', async () => {
+        console.log("dang ol' submit button pushed");
+    });
+    // apply css
+    uiBox.classList.add('ui-box-middle-column-full');
+    uiBox.classList.add('flexbox-column-centered');
+    // append
+    uiBox.append(h2);
+    // iterate through response list, render UI element for each, append to uiBox
+    for (let response of responseList) {
+        uiBox.append(renderPlayerResponsePairs(playerList, response));
+    }
+    uiBox.append(submitButton);
+    // return uiBox
+    return uiBox;
+}
+
+function renderPlayerResponsePairs(playerList, response) {
+    // create elements
+    const pairDiv = document.createElement('div');
+    const playerSelect = document.createElement('select');
+    const noGuessOption = document.createElement('option');
+    const responseText = document.createElement('h3');
+    // set contents
+    noGuessOption.textContent = '(No Guess)';
+    noGuessOption.value = '';
+    playerSelect.append(noGuessOption);
+    for (let player of playerList) {
+        const playerOption = document.createElement('option');
+        //add .username
+        playerOption.textContent = player;
+        playerOption.value = player;
+        playerSelect.append(playerOption);
+    }
+    // .response
+    responseText.textContent = response;
+    //add .id
+    pairDiv.id = response;
+    // apply css
+    pairDiv.classList.add('player-response-pair-container');
+    // append
+    pairDiv.append(playerSelect, responseText);
+    // return pairDiv
+    return pairDiv;
+}

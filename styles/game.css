@@ -29,6 +29,11 @@ main {
     grid-row: 3 / 4;
     border: thick double black;
 }
+.ui-box-middle-column-full {
+    grid-column: 2/3;
+    grid-row: 1/4;
+    border: thick double black;
+}
 
 .flexbox-column-centered {
     display: flex;
@@ -40,6 +45,16 @@ main {
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
+}
+
+.player-response-pair-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    border: thin solid gray;
+    margin: 1%;
+    gap: 10%;
+    width: 100%;
 }
 
 label {
