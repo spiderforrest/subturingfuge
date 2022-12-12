@@ -97,7 +97,10 @@ export function renderResponseEntryUI(promptText) {
 export function renderPlayerListUI(playerList) {
     // create html elements
     const uiBox = document.createElement('div');
+    const h3 = document.createElement('h3');
     // loop through all players in playerList, set textContent, append to uiBox
+    h3.textContent = 'Players';
+    uiBox.append(h3);
     for (let player of playerList) {
         const playerEl = document.createElement('p');
         playerEl.textContent = player.name;
@@ -107,6 +110,23 @@ export function renderPlayerListUI(playerList) {
     // apply css classes
     uiBox.classList.add('ui-box-left-side');
     uiBox.classList.add('flexbox-column-left-justified');
+
+    // return uiBox
+    return uiBox;
+}
+
+export function renderRoomCodeUI(roomCode) {
+    // create html elements
+    const uiBox = document.createElement('div');
+    const h4 = document.createElement('h4');
+    const h3 = document.createElement('h3');
+    // set textContent, append to uiBox
+    h4.textContent = 'Room Code:';
+    h3.textContent = roomCode;
+    uiBox.append(h4, h3);
+    // apply css classes
+    uiBox.classList.add('ui-box-top-right');
+    uiBox.classList.add('flexbox-column-centered');
 
     // return uiBox
     return uiBox;

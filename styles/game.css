@@ -3,11 +3,18 @@ main {
     display: grid;
     grid-template-rows: 1fr 4fr 1fr;
     grid-template-columns: 2fr 4fr 2fr;
+    gap: 3%;
 }
 
 .ui-box-center {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
+    border: thick double black;
+}
+
+.ui-box-top-right {
+    grid-column: 3/4;
+    grid-row: 1/2;
     border: thick double black;
 }
 
@@ -26,10 +33,15 @@ main {
 .flexbox-column-centered {
     display: flex;
     flex-flow: column nowrap;
+    align-items: center;
 }
 
 .flexbox-column-left-justified {
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
+}
+
+label {
+    text-align: center;
 }
