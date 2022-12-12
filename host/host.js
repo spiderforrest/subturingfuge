@@ -4,12 +4,12 @@ import {
     unsubscribeToUserJoins,
     subscribeToUserResponses,
     sendPacket,
+    checkAuth,
 } from '../fetch-utils.js';
 
 import { renderHostRoomSettingsUI, renderRoomCodeUI, renderPlayerListUI } from '../render-utils.js';
 
 // dom
-const startGameButton = document.getElementById('start-game-button');
 const nextButton = document.getElementById('next-button');
 const gameWindow = document.getElementById('game-window');
 
@@ -24,7 +24,8 @@ const correctGuessUser = 75;
 
 // initalization
 self.addEventListener('load', async () => {
-    gameWindow.append(renderHostRoomSettingsUI());
+    checkAuth();
+    gameWindow.append(renderHostRoomSettingsUI(startButtonHandler));
     // make a code
     gameCode = generateGameCode();
     gameWindow.append(renderRoomCodeUI(gameCode));
@@ -36,12 +37,13 @@ self.addEventListener('load', async () => {
 });
 
 // launch the game
-startGameButton.addEventListener('click', () => {
+async function startButtonHandler() {
+    const startGameButton = document.getElementById('start-game-button');
     // stop allowing joins
-    unsubscribeToUserJoins(gameCode, subscribeToUserJoinsHandler);
+    await unsubscribeToUserJoins(gameCode, subscribeToUserJoinsHandler);
     // set the game stage to the prompt stage
     gameStage = 'prompt';
-});
+}
 
 function getUsernameArray() {
     const usernameArray = [];
@@ -97,30 +99,30 @@ function subscribeToUserResponsesHandler(packet) {
 
 // kinda the main loop here
 // when the next button is clicked, check gameStage to determine what needs to be ran
-nextButton.addEventListener('click', () => {
-    switch (gameStage) {
-        // end prompt stage
-        case 'prompt':
-            // move to the response stage
-            gameStage = 'response';
-            // call the start stage function
-            responseStage();
-            break;
-        case 'response':
-            gameStage = 'guess';
-            guessesStage();
-            break;
-        case 'guess':
-            gameStage = 'results';
-            resultsStage();
-            break;
-        case 'results':
-            // TODO: check if there's more prompts and set to response
-            gameStage = 'over';
-            endGame();
-            break;
-    }
-});
+// nextButton.addEventListener('click', () => {
+//     switch (gameStage) {
+//         // end prompt stage
+//         case 'prompt':
+//             // move to the response stage
+//             gameStage = 'response';
+//             // call the start stage function
+//             responseStage();
+//             break;
+//         case 'response':
+//             gameStage = 'guess';
+//             guessesStage();
+//             break;
+//         case 'guess':
+//             gameStage = 'results';
+//             resultsStage();
+//             break;
+//         case 'results':
+//             // TODO: check if there's more prompts and set to response
+//             gameStage = 'over';
+//             endGame();
+//             break;
+//     }
+// });
 
 // main game functions, they run at the START of the stage they're named
 function responseStage() {

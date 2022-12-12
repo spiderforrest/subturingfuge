@@ -157,7 +157,7 @@ export function renderClientRoomSettingsUI(settings) {
     return uiBox;
 }
 
-export function renderHostRoomSettingsUI() {
+export function renderHostRoomSettingsUI(handler) {
     // create elements
     const uiBox = document.createElement('div');
     const h2 = document.createElement('h2');
@@ -177,9 +177,9 @@ export function renderHostRoomSettingsUI() {
 
     // event listener
     startGameButton.addEventListener('click', async () => {
-        console.log('game start button clicked');
-        // add actual functionality here please
+        await handler();
     });
+    startGameButton.id = 'start-game-button';
 
     // apply css
     uiBox.classList.add('ui-box-center');
