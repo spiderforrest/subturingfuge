@@ -6,11 +6,12 @@ import {
     sendPacket,
 } from '../fetch-utils.js';
 
-import { renderHostSetup, renderPromptPage } from '../render-utils.js';
+import { renderHostRoomSettingsUI, renderRoomCodeUI, renderPlayerListUI } from '../render-utils.js';
 
 // dom
 const startGameButton = document.getElementById('start-game-button');
 const nextButton = document.getElementById('next-button');
+const gameWindow = document.getElementById('game-window');
 
 // state
 let gameCode, gameStage;
@@ -23,8 +24,11 @@ const correctGuessUser = 75;
 
 // initalization
 self.addEventListener('load', async () => {
+    gameWindow.append(renderHostRoomSettingsUI());
     // make a code
     gameCode = generateGameCode();
+    gameWindow.append(renderRoomCodeUI(gameCode));
+    gameWindow.append(renderPlayerListUI(''));
     // create the game
     await createGame(gameCode);
     // start listening for user joins
@@ -53,6 +57,8 @@ function subscribeToUserJoinsHandler(packet) {
         uuid: packet.client_uuid,
         score: 0,
     };
+    // TODO - spider pls
+    renderPlayerListUI();
 }
 
 // this is half of the main game loop; it triggers when incoming response, checks gamestage, and tallies shit

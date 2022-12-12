@@ -34,6 +34,8 @@ export async function subscribeToUserResponses(user, gameId, handler) {}
 
 export async function subscribeToUserJoins(gameId, handler) {}
 
+export async function unsubscribeToUserJoins() {}
+
 export async function createGame(gameCode) {}
 
 export async function sendPacket(packet, gameStage) {}
