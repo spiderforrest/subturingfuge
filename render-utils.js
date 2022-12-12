@@ -248,3 +248,19 @@ function renderPlayerResponsePairs(playerList, response) {
     // return pairDiv
     return pairDiv;
 }
+
+export function renderHostControlBar(handler) {
+    // create elements
+    const navBar = document.createElement('nav');
+    const nextButton = document.createElement('button');
+    // set contents
+    nextButton.textContent = 'NEXT';
+    // event listener
+    nextButton.addEventListener('click', () => {
+        handler();
+    });
+    // append
+    navBar.append(nextButton);
+    // return navBar
+    return navBar;
+}

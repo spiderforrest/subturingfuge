@@ -7,11 +7,17 @@ import {
     checkAuth,
 } from '../fetch-utils.js';
 
-import { renderHostRoomSettingsUI, renderRoomCodeUI, renderPlayerListUI } from '../render-utils.js';
+import {
+    renderHostRoomSettingsUI,
+    renderRoomCodeUI,
+    renderPlayerListUI,
+    renderHostControlBar,
+} from '../render-utils.js';
 
 // dom
 const nextButton = document.getElementById('next-button');
 const gameWindow = document.getElementById('game-window');
+const headerBar = document.querySelector('.page-header');
 
 // state
 let gameCode, gameStage;
@@ -28,6 +34,7 @@ self.addEventListener('load', async () => {
     gameWindow.append(renderHostRoomSettingsUI(startButtonHandler));
     // make a code
     gameCode = generateGameCode();
+    headerBar.append(renderHostControlBar(nextButtonHandler));
     gameWindow.append(renderRoomCodeUI(gameCode));
     gameWindow.append(renderPlayerListUI(''));
     // create the game
@@ -99,30 +106,31 @@ function subscribeToUserResponsesHandler(packet) {
 
 // kinda the main loop here
 // when the next button is clicked, check gameStage to determine what needs to be ran
-// nextButton.addEventListener('click', () => {
-//     switch (gameStage) {
-//         // end prompt stage
-//         case 'prompt':
-//             // move to the response stage
-//             gameStage = 'response';
-//             // call the start stage function
-//             responseStage();
-//             break;
-//         case 'response':
-//             gameStage = 'guess';
-//             guessesStage();
-//             break;
-//         case 'guess':
-//             gameStage = 'results';
-//             resultsStage();
-//             break;
-//         case 'results':
-//             // TODO: check if there's more prompts and set to response
-//             gameStage = 'over';
-//             endGame();
-//             break;
-//     }
-// });
+function nextButtonHandler() {
+    switch (gameStage) {
+        // end prompt stage
+        case 'prompt':
+            // move to the response stage
+            gameStage = 'response';
+            // call the start stage function
+            responseStage();
+            break;
+        case 'response':
+            gameStage = 'guess';
+            guessesStage();
+            break;
+        case 'guess':
+            gameStage = 'results';
+            resultsStage();
+            break;
+        case 'results':
+            // TODO: check if there's more prompts and set to response
+            gameStage = 'over';
+            endGame();
+            break;
+    }
+    console.log('suck it nerds');
+}
 
 // main game functions, they run at the START of the stage they're named
 function responseStage() {
