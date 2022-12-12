@@ -14,10 +14,9 @@ const nextButton = document.getElementById('next-button');
 
 // state
 let gameCode, gameStage;
-const playerArray = [];
+const playersObject = {};
 let promptArray = [];
 let responseArray = [];
-let guessArray = [];
 // i have no idea how to balance a game, TODO: anyone else pick better values
 const correctGuessAi = 200;
 const correctGuessUser = 75;
@@ -48,14 +47,12 @@ function generateGameCode() {
 }
 
 // handlers
-// this adds player objects to the array when one joins
+// this adds player objects to the object when one joins
 function subscribeToUserJoinsHandler(packet) {
-    const player = {
+    playersObject[packet.username] = {
         uuid: packet.client_uuid,
-        username: packet.username,
         score: 0,
     };
-    playerArray.push(player);
 }
 
 // this is half of the main game loop; it triggers when incoming response, checks gamestage, and tallies shit
@@ -73,6 +70,7 @@ function subscribeToUserResponsesHandler(packet) {
                 uuid: packet.client_uuid,
                 username: packet.username,
                 response: packet.response,
+                guesses: {},
             });
             break;
         case 'guesses':
@@ -80,9 +78,9 @@ function subscribeToUserResponsesHandler(packet) {
             for (const item in packet.guess) {
                 // i hate this
                 // i love this
-                // go to index item.id in the array, which is an object, and in that object add guesserUsername:guess-eeUsername
-                responseArray[item.id][packet.username] = item.guess;
-                // final structure of an item in responseArray: {uuid:, username:, response:, ${playerXGuess}:${playerYUsername}...}
+                // go to index item.id in the array, in that object there's an object named guesses, and in that object add guesserUsername:guess-eeUsername
+                responseArray[item.id].guesses[packet.username] = item.guess;
+                // final structure of an item in responseArray: {uuid:, username:, response:, guesses:{playerXGuess:playerYUsername...}}
             }
             break;
     }
@@ -129,9 +127,7 @@ function responseStage() {
     // get the GPT response
 }
 function guessesStage() {
-    // weird format here. we need an array that has an object for each response and that object will have each user's guess at who
-    // wrote it appended to the object as key:value when it arrives(see subscribeToUserResponseHandler). so, gonna just reuse the responseArray.
-
+    // just reusing response array here, so no reset
     // send out all the response text and usernames as seperate arrays
     // create the object to put in the packet
     const state = {
@@ -140,8 +136,8 @@ function guessesStage() {
     };
     // propogate the arrays with the raw list of usernames/responses-the local player/responseArray can't be sent out as they contain
     // objects with extra data(that would allow ppl to cheat with devtools/is just kinna messy tbh)
-    for (const item of playerArray) {
-        state.usernames.push(item.username);
+    for (const [key, _item] of playersObject.entries()) {
+        state.usernames.push(key);
     }
     // PRESERVING ORDER IS IMPORTANT: the client will respond with an array of objects containing the index of the response and their
     // guess. so i guess please don't rewrite this to scramble that.
@@ -152,9 +148,17 @@ function guessesStage() {
 }
 function resultsStage() {
     // hard part: tally everyone's scores
-    // unpack modified responseArray-see function guessesStage for details
-    for (const item of responseArray) {
+    // unpack modified responseArray-see function guessesStage and nextButton.handler for details
+    for (const responseObject of responseArray) {
+        for (const [guesser, guess] of responseObject.guesses) {
+            // check if the guess is right
+            if (guess === responseObject.username) {
+                // add appropriate score
+                playersObject[guesser] += guess === 'ai' ? correctGuessAi : correctGuessUser;
+            }
+        }
     }
     // send out packet with response:username pairs and the score
+    sendPacket({ answers: responseArray, scores: playersObject }, 'results');
 }
 function endGame() {}
