@@ -5,38 +5,50 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Auth related functions */
 
+function catchError(data) {
+    return data.error ? console.error(data.error) : data.data;
+}
+
 export function getUser() {
-    return client.auth.user();
+    return catchError(client.auth.user());
 }
 
 export async function signUpUser(email, password) {
-    return await client.auth.signUp({
-        email,
-        password,
-    });
+    return catchError(
+        await client.auth.signUp({
+            email,
+            password,
+        })
+    );
 }
 
 export async function signInUser(email, password) {
-    return await client.auth.signIn({
-        email,
-        password,
-    });
+    return await catchError(
+        client.auth.signIn({
+            email,
+            password,
+        })
+    );
 }
 
 export async function signOutUser() {
-    return await client.auth.signOut();
+    return await catchError(client.auth.signOut());
 }
 
 /* Data functions */
 
 // host functions:
-export async function subscribeToUserResponses(user, gameId, handler) {}
-
 export async function subscribeToUserJoins(gameId, handler) {}
 
 export async function unsubscribeToUserJoins() {}
 
-export async function createGame(gameCode) {}
+export async function subscribeToUserResponses(user, gameId, handler) {}
+
+export async function createGame(gameCode) {
+    const response = client
+        .from('games')
+        .insert({ game_status: 'lobby', host: client.auth.user().id, room_code: gameCode });
+}
 
 export async function sendPacket(packet, gameStage) {}
 

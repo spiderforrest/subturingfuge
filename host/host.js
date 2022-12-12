@@ -41,9 +41,14 @@ startGameButton.addEventListener('click', () => {
     unsubscribeToUserJoins(gameCode, subscribeToUserJoinsHandler);
     // set the game stage to the prompt stage
     gameStage = 'prompt';
-    // render the prompt page, the first game page
-    renderPromptPage();
 });
+
+function getUsernameArray() {
+    const usernameArray = [];
+    for (const [key, _item] of playersObject.entries()) {
+        usernameArray.push(key);
+    }
+}
 
 // thanks stackoverflow-might need to add something to make sure it's 4 chars?
 function generateGameCode() {
@@ -57,8 +62,7 @@ function subscribeToUserJoinsHandler(packet) {
         uuid: packet.client_uuid,
         score: 0,
     };
-    // TODO - spider pls
-    renderPlayerListUI();
+    renderPlayerListUI(getUsernameArray());
 }
 
 // this is half of the main game loop; it triggers when incoming response, checks gamestage, and tallies shit
@@ -141,9 +145,7 @@ function guessesStage() {
     };
     // propogate the arrays with the raw list of usernames/responses-the local player/responseArray can't be sent out as they contain
     // objects with extra data(that would allow ppl to cheat with devtools/is just kinna messy tbh)
-    for (const [key, _item] of playersObject.entries()) {
-        state.usernames.push(key);
-    }
+    state.usernames = getUsernameArray();
     // PRESERVING ORDER IS IMPORTANT: the client will respond with an array of objects containing the index of the response and their
     // guess. so please don't rewrite this to scramble that.
     for (const item of responseArray) {
