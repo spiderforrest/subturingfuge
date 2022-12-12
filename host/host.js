@@ -18,6 +18,9 @@ const playerArray = [];
 let promptArray = [];
 let responseArray = [];
 let guessArray = [];
+// i have no idea how to balance a game, TODO: anyone else pick better values
+const correctGuessAi = 200;
+const correctGuessUser = 75;
 
 // initalization
 self.addEventListener('load', async () => {
@@ -50,6 +53,7 @@ function subscribeToUserJoinsHandler(packet) {
     const player = {
         uuid: packet.client_uuid,
         username: packet.username,
+        score: 0,
     };
     playerArray.push(player);
 }
@@ -63,7 +67,6 @@ function subscribeToUserResponsesHandler(packet) {
             promptArray.push(packet.prompt_text);
             // TODO: add a visible counter for everyone, which would mean a packet needs to get sent out here
             break;
-        // response stage
         case 'response':
             // add the incoming response to the array
             responseArray.push({
@@ -72,10 +75,15 @@ function subscribeToUserResponsesHandler(packet) {
                 response: packet.response,
             });
             break;
-        // guesses stage
         case 'guesses':
-            // i 'guess' i'll just toss it in an array again
-            guessArray.push(packet.guess);
+            // modify the response array's objects to hold each user's guess
+            for (const item in packet.guess) {
+                // i hate this
+                // i love this
+                // go to index item.id in the array, which is an object, and in that object add guesserUsername:guess-eeUsername
+                responseArray[item.id][packet.username] = item.guess;
+                // final structure of an item in responseArray: {uuid:, username:, response:, ${playerXGuess}:${playerYUsername}...}
+            }
             break;
     }
 }
@@ -91,17 +99,14 @@ nextButton.addEventListener('click', () => {
             // call the start stage function
             responseStage();
             break;
-        // end response stage
         case 'response':
-            gameStage = 'guesses';
+            gameStage = 'guess';
             guessesStage();
             break;
-        // end guesses stage
-        case 'guesses':
+        case 'guess':
             gameStage = 'results';
             resultsStage();
             break;
-        // end round results stage
         case 'results':
             // TODO: check if there's more prompts and set to response
             gameStage = 'over';
@@ -120,22 +125,36 @@ function responseStage() {
     // remove the prompt from promptArray
     promptArray = promptArray.splice(randNum, 1);
     // send out packet with prompt
-    sendPacket({ promptText: activePrompt }, gameStage);
+    sendPacket({ promptText: activePrompt }, 'prompt');
     // get the GPT response
 }
 function guessesStage() {
-    guessArray = [];
+    // weird format here. we need an array that has an object for each response and that object will have each user's guess at who
+    // wrote it appended to the object as key:value when it arrives(see subscribeToUserResponseHandler). so, gonna just reuse the responseArray.
+
     // send out all the response text and usernames as seperate arrays
-    const packet = {
+    // create the object to put in the packet
+    const state = {
         response: [],
         usernames: [],
     };
+    // propogate the arrays with the raw list of usernames/responses-the local player/responseArray can't be sent out as they contain
+    // objects with extra data(that would allow ppl to cheat with devtools/is just kinna messy tbh)
     for (const item of playerArray) {
-        packet.usernames.push(item.username);
+        state.usernames.push(item.username);
     }
+    // PRESERVING ORDER IS IMPORTANT: the client will respond with an array of objects containing the index of the response and their
+    // guess. so i guess please don't rewrite this to scramble that.
+    for (const item of responseArray) {
+        state.response.push(item.response);
+    }
+    sendPacket(state, 'guess');
 }
 function resultsStage() {
     // hard part: tally everyone's scores
+    // unpack modified responseArray-see function guessesStage for details
+    for (const item of responseArray) {
+    }
     // send out packet with response:username pairs and the score
 }
 function endGame() {}
