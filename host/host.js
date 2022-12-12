@@ -15,7 +15,9 @@ const nextButton = document.getElementById('next-button');
 // state
 let gameCode, gameStage;
 const playerArray = [];
-const promptArray = [];
+let promptArray = [];
+let responseArray = [];
+let guessArray = [];
 
 // initalization
 self.addEventListener('load', async () => {
@@ -31,8 +33,8 @@ self.addEventListener('load', async () => {
 startGameButton.addEventListener('click', () => {
     // stop allowing joins
     unsubscribeToUserJoins(gameCode, subscribeToUserJoinsHandler);
-    // set the game stage to the prompt stage, which is 1
-
+    // set the game stage to the prompt stage
+    gameStage = 'prompt';
     // render the prompt page, the first game page
     renderPromptPage();
 });
@@ -62,9 +64,19 @@ function subscribeToUserResponsesHandler(packet) {
             // TODO: add a visible counter for everyone, which would mean a packet needs to get sent out here
             break;
         // response stage
+        case 'response':
+            // add the incoming response to the array
+            responseArray.push({
+                uuid: packet.client_uuid,
+                username: packet.username,
+                response: packet.response,
+            });
+            break;
         // guesses stage
-        // round results stage
-        // end game page
+        case 'guesses':
+            // i 'guess' i'll just toss it in an array again
+            guessArray.push(packet.guess);
+            break;
     }
 }
 
@@ -74,20 +86,20 @@ nextButton.addEventListener('click', () => {
     switch (gameStage) {
         // end prompt stage
         case 'prompt':
-            // call the function
-            responseStage();
             // move to the response stage
             gameStage = 'response';
+            // call the start stage function
+            responseStage();
             break;
         // end response stage
         case 'response':
-            guessesStage();
             gameStage = 'guesses';
+            guessesStage();
             break;
         // end guesses stage
         case 'guesses':
-            resultsStage();
             gameStage = 'results';
+            resultsStage();
             break;
         // end round results stage
         case 'results':
@@ -99,10 +111,31 @@ nextButton.addEventListener('click', () => {
 });
 
 // main game functions, they run at the START of the stage they're named
-// send out packet with prompts for everyone
-function responseStage() {}
-// send packet with everyone's responses for guessing
-function guessesStage() {}
-// tally score and send packet with all everyone's choices and real answers
-function resultsStage() {}
+function responseStage() {
+    // reset responses
+    responseArray = [];
+    // pick a prompt
+    const randNum = Math.floor(Math.random() * promptArray.length);
+    const activePrompt = promptArray[randNum];
+    // remove the prompt from promptArray
+    promptArray = promptArray.splice(randNum, 1);
+    // send out packet with prompt
+    sendPacket({ promptText: activePrompt }, gameStage);
+    // get the GPT response
+}
+function guessesStage() {
+    guessArray = [];
+    // send out all the response text and usernames as seperate arrays
+    const packet = {
+        response: [],
+        usernames: [],
+    };
+    for (const item of playerArray) {
+        packet.usernames.push(item.username);
+    }
+}
+function resultsStage() {
+    // hard part: tally everyone's scores
+    // send out packet with response:username pairs and the score
+}
 function endGame() {}
