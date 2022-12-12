@@ -67,7 +67,6 @@ function subscribeToUserResponsesHandler(packet) {
         case 'response':
             // add the incoming response to the array
             responseArray.push({
-                uuid: packet.client_uuid,
                 username: packet.username,
                 response: packet.response,
                 guesses: {},
@@ -140,7 +139,7 @@ function guessesStage() {
         state.usernames.push(key);
     }
     // PRESERVING ORDER IS IMPORTANT: the client will respond with an array of objects containing the index of the response and their
-    // guess. so i guess please don't rewrite this to scramble that.
+    // guess. so please don't rewrite this to scramble that.
     for (const item of responseArray) {
         state.response.push(item.response);
     }
@@ -150,7 +149,7 @@ function resultsStage() {
     // hard part: tally everyone's scores
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
     for (const responseObject of responseArray) {
-        for (const [guesser, guess] of responseObject.guesses) {
+        for (const [guesser, guess] of responseObject.guesses.entries()) {
             // check if the guess is right
             if (guess === responseObject.username) {
                 // add appropriate score
