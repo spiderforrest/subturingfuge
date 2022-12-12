@@ -92,3 +92,22 @@ export function renderResponseEntryUI(promptText) {
 
     return uiBox;
 }
+
+// playerList should be a list of players with each player's name stored in player.name
+export function renderPlayerListUI(playerList) {
+    // create html elements
+    const uiBox = document.createElement('div');
+    // loop through all players in playerList, set textContent, append to uiBox
+    for (let player of playerList) {
+        const playerEl = document.createElement('p');
+        playerEl.textContent = player.name;
+        uiBox.append(playerEl);
+    }
+
+    // apply css classes
+    uiBox.classList.add('ui-box-left-side');
+    uiBox.classList.add('flexbox-column-left-justified');
+
+    // return uiBox
+    return uiBox;
+}

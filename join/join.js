@@ -3,6 +3,7 @@ import {
     renderClientSetupUI,
     renderPromptEntryUI,
     renderResponseEntryUI,
+    renderPlayerListUI,
 } from '../render-utils.js';
 
 const gameWindow = document.getElementById('game-window');
@@ -15,3 +16,7 @@ const gameWindow = document.getElementById('game-window');
 //     )
 // );
 // clearGameWindow();
+//
+gameWindow.append(
+    renderPlayerListUI([{ name: 'Elmo' }, { name: 'Horse Criminal' }, { name: 'oh yeahhhh' }])
+);
