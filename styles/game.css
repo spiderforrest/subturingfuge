@@ -66,3 +66,7 @@ main {
 label {
     text-align: center;
 }
+
+#roomcode-input {
+    text-transform: uppercase;
+}

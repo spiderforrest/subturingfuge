@@ -48,6 +48,7 @@ export function renderPromptEntryUI() {
     // set properties of html elements
     promptLabel.textContent = 'Prompt: ';
     submitButton.textContent = 'Submit';
+    submitButton.id = 'prompt-submit-button';
     promptInput.id = 'prompt-input';
     promptInput.rows = '5';
     promptInput.cols = '40';

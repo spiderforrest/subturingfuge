@@ -8,9 +8,20 @@ import {
     renderClientRoomSettingsUI,
     renderHostRoomSettingsUI,
 } from '../render-utils.js';
-import { joinGame, checkAuth } from '../fetch-utils.js';
+import {
+    joinGame,
+    checkAuth,
+    subscribeToHostPackets,
+    sendPrompt,
+    sendResponse,
+    sendGuess,
+} from '../fetch-utils.js';
 
 const gameWindow = document.getElementById('game-window');
+
+// game state vars
+let joinedGameCode;
+let joinedGameID;
 
 self.addEventListener('load', async () => {
     // redirect to auth if not logged in
@@ -39,10 +50,41 @@ async function attemptJoinGame(code, username) {
         return;
     }
     // attempt to join game, continue to next screen if successful
-    if (await joinGame(code, username)) {
+    const maybeID = await joinGame(code, username);
+    if (maybeID) {
+        joinedGameCode = code;
         clearGameWindow();
         gameWindow.append(renderClientRoomSettingsUI('placeholder'), renderRoomCodeUI(code));
+        await subscribeToHostPackets(code, subscribeToHostPacketsHandler);
     } else {
+        joinedGameID = maybeID;
         return;
     }
+}
+
+function subscribeToHostPacketsHandler(payload) {
+    switch (payload.game_status) {
+        // prompt stage
+        case 'prompt':
+            break;
+        case 'response':
+            break;
+        case 'guesses':
+            break;
+        case 'results':
+            break;
+    }
+}
+
+function clientPromptStage() {
+    clearGameWindow();
+    gameWindow.append(renderPromptEntryUI());
+    // TODO - have clients render player list when at prompt screen
+    // event handler for client submitting prompt
+    const promptInput = document.getElementById('prompt-input');
+    const promptSubmitBtn = document.getElementById('prompt-submit-button');
+    promptSubmitBtn.addEventHandler('click', async () => {
+        // push submitted prompt to supabase
+        await sendPrompt(joinedGameID, promptInput.value);
+    });
 }

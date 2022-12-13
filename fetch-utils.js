@@ -81,7 +81,14 @@ export async function createGame(gameCode) {
 export async function sendPacket(packet, gameStage) {}
 
 // client function
-export async function subscribeToHostPackets(gameCode, handler) {}
+export async function subscribeToHostPackets(gameCode, handler) {
+    const response = await client
+        .from(`games:room_code=eq.${gameCode}`)
+        .on('UPDATE', (payload) => {
+            handler(payload.new);
+        })
+        .subscribe();
+}
 
 export async function joinGame(gameCode, username) {
     // search for an open lobby with matching game code
@@ -100,8 +107,18 @@ export async function joinGame(gameCode, username) {
             game_id: response.data.id,
             username: username,
         });
-        return true;
+        return response.data.id;
     }
 }
 
-export async function sendResponse(gameCode, response, guess, promptText) {}
+export async function sendPrompt(gameID, promptText) {
+    const response = await client
+        .from('responses')
+        .update({ prompt_text: promptText })
+        .match({ client_uuid: client.auth.user().id, game_id: gameID })
+        .single();
+}
+
+export async function sendResponse(gameCode, response) {}
+
+export async function sendGuess(gameCode, guess) {}
