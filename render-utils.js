@@ -4,7 +4,8 @@ export function clearGameWindow() {
 }
 
 function removeElement(elementID) {
-    document.getElementById(elementID).remove();
+    const target = document.getElementById(elementID);
+    if (target) target.remove();
 }
 
 export function renderClientSetupUI() {
