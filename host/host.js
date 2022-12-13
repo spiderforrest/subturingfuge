@@ -58,9 +58,7 @@ async function startButtonHandler() {
     // set the game stage to the prompt stage
     gameStage = 'prompt';
     // subscribe to user updates
-    for (const item of getUsernameArray()) {
-        subscribeToUserResponses(item, gameId, subscribeToUserResponsesHandler);
-    }
+    subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
 }
 
 function getUsernameArray() {
