@@ -12,10 +12,10 @@ self.addEventListener('load', () => {
     emailEl.textContent = `[${getUser().email} ~] $`;
 });
 
-signInOutEl.textContent = getUser() ? 'Sign Out' : 'Sign In';
-signInOutEl.href = getUser() ? '/' : 'auth';
 signInOutEl.addEventListener('click', async () => {
     await signOutUser();
 });
 
 /* Display Functions */
+signInOutEl.textContent = getUser() ? 'Sign Out' : 'Sign In';
+signInOutEl.href = getUser() ? '/' : 'auth';
