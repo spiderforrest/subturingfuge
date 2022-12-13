@@ -45,19 +45,16 @@ export async function signOutUser() {
 /* Data functions */
 
 // host functions:
-export async function subscribeToUserJoins(gameId, handler) {
-    await client.from(`responses:game_id=${gameId}`).on('INSERT', handler).subscribe();
-}
-
 export async function unsubscribeAll() {}
 
 export async function subscribeToUserResponses(user, gameId, handler) {}
 
-export async function createGame(gameCode) {
+export async function createGame(gameCode, handler) {
     // TODO - make function check if existing running game already has this game code
     const response = await client
         .from('games')
         .insert({ game_status: 'lobby', host: client.auth.user().id, room_code: gameCode });
+    await client.from(`responses:game_id=${response.id}`).on('INSERT', handler).subscribe();
     return catchError(response);
 }
 

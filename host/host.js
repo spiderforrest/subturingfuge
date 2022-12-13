@@ -1,6 +1,5 @@
 import {
     createGame,
-    subscribeToUserJoins,
     unsubscribeAll,
     subscribeToUserResponses,
     sendPacket,
@@ -39,10 +38,8 @@ self.addEventListener('load', async () => {
     gameWindow.append(renderRoomCodeUI(gameCode));
     gameWindow.append(renderPlayerListUI(''));
     // create the game
-    const response = await createGame(gameCode);
+    const response = await createGame(gameCode, subscribeToUserJoinsHandler);
     gameId = response.id;
-    // start listening for user joins
-    await subscribeToUserJoins(gameCode, subscribeToUserJoinsHandler);
     // join AI as player
 
     // join host as player
