@@ -26,6 +26,10 @@ self.addEventListener('load', async () => {
     });
 });
 
+// TODO
+// - write functions for transitioning between game stages for client
+// - write fetch functions for client
+
 async function attemptJoinGame(code, username) {
     // make sure username is provided
     if (!username) {
