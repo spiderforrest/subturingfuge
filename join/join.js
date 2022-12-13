@@ -17,7 +17,7 @@ self.addEventListener('load', async () => {});
 async function joinGameButtonHandler(code, username) {
     if (await joinGame(code, username)) {
         clearGameWindow();
-        gameWindow.append(renderClientSetupUI(), renderRoomCodeUI(code));
+        gameWindow.append(renderClientRoomSettingsUI('placeholder'), renderRoomCodeUI(code));
     } else {
         return;
     }
