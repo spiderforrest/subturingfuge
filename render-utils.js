@@ -3,6 +3,10 @@ export function clearGameWindow() {
     gameWindow.innerHTML = '';
 }
 
+function removeElement(elementID) {
+    document.getElementById(elementID).remove();
+}
+
 export function renderClientSetupUI() {
     // create html elements
     const uiBox = document.createElement('div');
@@ -93,12 +97,14 @@ export function renderResponseEntryUI(promptText) {
 
 // playerList should be a list of players with each player's name stored in player.name
 export function renderPlayerListUI(playerList) {
+    removeElement('player-list');
     // create html elements
     const uiBox = document.createElement('div');
     const h3 = document.createElement('h3');
     // loop through all players in playerList, set textContent, append to uiBox
     h3.textContent = 'Players';
     uiBox.append(h3);
+    uiBox.id = 'player-list';
     for (let player of playerList) {
         const playerEl = document.createElement('p');
         playerEl.textContent = player.name;
