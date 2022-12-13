@@ -45,13 +45,13 @@ export async function signOutUser() {
 /* Data functions */
 
 // host functions:
-export async function subscribeToUserJoins(gameId, handler) {
-        await client
-        .from('responses:')
-        .on('INSERT', handler(payload) => {
-        })
-        .subscribe();
-}
+// export async function subscribeToUserJoins(gameId, handler) {
+//         await client
+//         .from('responses:')
+//         .on('INSERT', handler(payload) => {
+//         })
+//         .subscribe();
+// }
 
 export async function unsubscribeAll() {}
 

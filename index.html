@@ -28,24 +28,33 @@
         <!-- css -->
         <link rel="stylesheet" href="/styles/reset.css" />
         <link rel="stylesheet" href="/styles/global.css" />
+        <link rel="stylesheet" href="/styles/menu.css" />
         <!-- add link for page specific css -->
     </head>
 
     <body>
         <header class="page-header">
-            <img class="logo" src="/assets/html_css_js.png" alt="logo" />
-            <p class="title">Supabase Web App</p>
-            <nav>
-                <a href="/">Home</a>
-                <a id="sign-out-link" href="auth">Sign Out</a>
-            </nav>
+            <p class="title">
+                sub<span class="logo-bracket">[</span><span class="logo-turing">turing</span
+                ><span class="logo-bracket">]</span>fuge
+            </p>
         </header>
 
         <main>
-            <a href="/host/index.html">Host a Game</a>
-            <a href="/join/index.html">Join a Game</a>
-            <a href="/guide/">How To Play</a>
-            <a href="/credits/">About</a>
+            <a class="menu-item" href="/host/index.html">Host a Game</a>
+            <a class="menu-item" href="/join/index.html">Join a Game</a>
+            <a class="menu-item" href="/guide/">How To Play</a>
+            <a class="menu-item" href="/credits/">About</a>
+            <a class="menu-item" id="sign-out-link"></a>
         </main>
+
+        <div class="lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <p id="logged-in-user-email"></p>
     </body>
 </html>

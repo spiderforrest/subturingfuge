@@ -1,14 +1,15 @@
 :root {
-    --background: rgb(224, 234, 247);
-    --header-background: white;
-    --text-color: rgb(7, 5, 68);
+    --background: #171717;
+    --header-background: rgba(255, 255, 255, 0.757);
+    --text-color: rgb(0, 0, 0);
     --label-color: rgb(75, 102, 98);
     --placeholder-color: rgb(136, 136, 153);
     --offset-color: rgb(217, 236, 217);
     --action-color: rgb(77, 132, 252);
 
-    --primary-font: 'Rubik', Corbel, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans',
-        'DejaVu Sans', 'Bitstream Vera Sans', 'Liberation Sans', Verdana, 'Verdana Ref', sans-serif;
+    --primary-font: monospace, 'Rubik', Corbel, 'Lucida Grande', 'Lucida Sans Unicode',
+        'Lucida Sans', 'DejaVu Sans', 'Bitstream Vera Sans', 'Liberation Sans', Verdana,
+        'Verdana Ref', sans-serif;
 }
 
 body {
@@ -39,7 +40,8 @@ body {
 }
 
 .page-header .title {
-    font-size: 1.3em;
+    text-align: center;
+    font-size: 2em;
     font-weight: 800;
     flex-grow: 2;
 }
@@ -68,4 +70,12 @@ main {
 
 .hidden {
     display: none;
+}
+
+.logo-bracket {
+    color: rgb(106, 0, 0);
+}
+
+.logo-turing {
+    color: rgb(93, 93, 93);
 }
