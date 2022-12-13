@@ -30,8 +30,8 @@ export async function signUpUser(email, password) {
 }
 
 export async function signInUser(email, password) {
-    return await catchError(
-        client.auth.signIn({
+    return catchError(
+        await client.auth.signIn({
             email,
             password,
         })
