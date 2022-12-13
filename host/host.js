@@ -68,7 +68,7 @@ async function startButtonEventListener() {
 
 function getUsernameArray() {
     const usernameArray = [];
-    for (const [key, _item] of playersObject.entries()) {
+    for (const key of playersObject.keys()) {
         usernameArray.push(key);
     }
 }
@@ -81,6 +81,7 @@ function generateGameCode() {
 // handlers
 // this adds player objects to the object when one joins
 function subscribeToUserJoinsHandler(packet) {
+    console.log(packet);
     playersObject[packet.username] = {
         uuid: packet.client_uuid,
         score: 0,

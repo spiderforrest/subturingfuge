@@ -50,10 +50,10 @@ export async function signOutUser() {
 // host functions:
 export async function subscribeToUserJoins(gameId, handler) {
     return await client
-        .from(`responses:game_id=${gameId}`)
+        .from(`responses:game_id=eq.${gameId}`)
         .on('INSERT', (payload) => {
             console.log(payload);
-            // handler(payload);
+            handler(payload.new);
         })
         .subscribe();
 }
