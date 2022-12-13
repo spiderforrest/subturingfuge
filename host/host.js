@@ -44,9 +44,9 @@ self.addEventListener('load', async () => {
     const response = await createGame(gameCode);
     // i have no idea why supabase is doing this?
     gameId = response[0].id;
+    console.log(gameId);
     // liek and subscrib
     const newResponse = await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
-    gameId = response.id;
     // join AI as player
 
     //
@@ -60,8 +60,10 @@ async function startButtonEventListener() {
     // set the game stage to the prompt stage
     gameStage = 'prompt';
     // subscribe to user updates
+    console.log(gameId);
     subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
     // join host as player
+    await nextButtonHandler();
 }
 
 // thanks stackoverflow-might need to add something to make sure it's 4 chars?
@@ -112,33 +114,33 @@ function subscribeToUserResponsesHandler(packet) {
 
 // kinda the main loop here
 // when the next button is clicked, check gameStage to determine what needs to be ran
-function nextButtonHandler() {
+async function nextButtonHandler() {
     switch (gameStage) {
         // end prompt stage
         case 'prompt':
             // move to the response stage
             gameStage = 'response';
             // call the start stage function
-            responseStage();
+            await responseStage();
             break;
         case 'response':
             gameStage = 'guess';
-            guessesStage();
+            await guessesStage();
             break;
         case 'guess':
             gameStage = 'results';
-            resultsStage();
+            await resultsStage();
             break;
         case 'results':
             // TODO: check if there's more prompts and set to response
             gameStage = 'over';
-            endGame();
+            await endGame();
             break;
     }
 }
 
 // main game functions, they run at the START of the stage they're named
-function responseStage() {
+async function responseStage() {
     // reset responses
     responseArray = [];
     // pick a prompt
@@ -147,10 +149,10 @@ function responseStage() {
     // remove the prompt from promptArray
     promptArray = promptArray.splice(randNum, 1);
     // send out packet with prompt
-    sendPacket({ promptText: activePrompt }, 'prompt');
+    await sendPacket({ promptText: activePrompt }, 'prompt', gameId);
     // get the GPT response
 }
-function guessesStage() {
+async function guessesStage() {
     // just reusing response array here, so no reset
     // send out all the response text and usernames as seperate arrays
     // create the object to put in the packet
@@ -160,15 +162,15 @@ function guessesStage() {
     };
     // propogate the arrays with the raw list of usernames/responses-the local player/responseArray can't be sent out as they contain
     // objects with extra data(that would allow ppl to cheat with devtools/is just kinna messy tbh)
-    state.usernames = getUsernameArray();
+    state.usernames = usernameArray;
     // PRESERVING ORDER IS IMPORTANT: the client will respond with an array of objects containing the index of the response and their
     // guess. so please don't rewrite this to scramble that.
     for (const item of responseArray) {
         state.response.push(item.response);
     }
-    sendPacket(state, 'guess');
+    await sendPacket(state, 'guess', gameId);
 }
-function resultsStage() {
+async function resultsStage() {
     // hard part: tally everyone's scores
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
     for (const responseObject of responseArray) {
@@ -181,6 +183,6 @@ function resultsStage() {
         }
     }
     // send out packet with response:username pairs and the score
-    sendPacket({ answers: responseArray, scores: playersObject }, 'results');
+    await sendPacket({ answers: responseArray, scores: playersObject }, 'results');
 }
-function endGame() {}
+async function endGame() {}
