@@ -41,6 +41,11 @@ self.addEventListener('load', async () => {
     await createGame(gameCode);
     // start listening for user joins
     await subscribeToUserJoins(gameCode, subscribeToUserJoinsHandler);
+    // join AI as player
+
+    // join host as player
+
+    //
 });
 
 // launch the game

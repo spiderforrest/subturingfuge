@@ -165,6 +165,8 @@ export function renderHostRoomSettingsUI(handler) {
     const timerInput = document.createElement('input');
     const roundsLabel = document.createElement('label');
     const roundsInput = document.createElement('input');
+    const usernameLabel = document.createElement('label');
+    const usernameInput = document.createElement('input');
     const startGameButton = document.createElement('button');
 
     // set contents
@@ -173,6 +175,9 @@ export function renderHostRoomSettingsUI(handler) {
     timerInput.disabled = true;
     roundsLabel.textContent = 'Rounds: (dummied out)';
     roundsInput.disabled = true;
+    usernameLabel.textContent = 'Username: ';
+    usernameInput.id = 'username-input';
+    usernameInput.type = 'text';
     startGameButton.textContent = 'START GAME';
 
     // event listener

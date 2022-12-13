@@ -52,6 +52,7 @@ export async function unsubscribeToUserJoins() {}
 export async function subscribeToUserResponses(user, gameId, handler) {}
 
 export async function createGame(gameCode) {
+    // TODO - make function check if existing running game already has this game code
     const response = await client
         .from('games')
         .insert({ game_status: 'lobby', host: client.auth.user().id, room_code: gameCode });
