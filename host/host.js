@@ -23,6 +23,7 @@ const headerBar = document.querySelector('.page-header');
 // state
 let gameCode, gameId, gameStage;
 const playersObject = {};
+const usernameArray = [];
 let promptArray = [];
 let responseArray = [];
 // i have no idea how to balance a game, TODO: anyone else pick better values
@@ -67,13 +68,6 @@ async function startButtonEventListener() {
     subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
 }
 
-function getUsernameArray() {
-    const usernameArray = [];
-    for (const key of playersObject.keys()) {
-        usernameArray.push(key);
-    }
-}
-
 // thanks stackoverflow-might need to add something to make sure it's 4 chars?
 function generateGameCode() {
     return Math.random().toString(36).slice(2, 6).toUpperCase();
@@ -87,8 +81,8 @@ function subscribeToUserJoinsHandler(packet) {
         uuid: packet.client_uuid,
         score: 0,
     };
-    console.log('This is inside the subscribe handler. current client list: ', playersObject);
-    renderPlayerListUI(getUsernameArray());
+    usernameArray.push(packet.username);
+    gameWindow.append(renderPlayerListUI(usernameArray));
 }
 
 // this is half of the main game loop; it triggers when incoming response, checks gamestage, and tallies shit

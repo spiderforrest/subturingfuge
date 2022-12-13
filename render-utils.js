@@ -96,7 +96,7 @@ export function renderResponseEntryUI(promptText) {
     return uiBox;
 }
 
-// playerList should be a list of players with each player's name stored in player.name
+// playerList should be an array of all the players' usernames
 export function renderPlayerListUI(playerList) {
     removeElement('player-list');
     // create html elements
@@ -108,7 +108,7 @@ export function renderPlayerListUI(playerList) {
     uiBox.id = 'player-list';
     for (let player of playerList) {
         const playerEl = document.createElement('p');
-        playerEl.textContent = player.name;
+        playerEl.textContent = player;
         uiBox.append(playerEl);
     }
 
