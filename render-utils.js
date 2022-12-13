@@ -3,7 +3,7 @@ export function clearGameWindow() {
     gameWindow.innerHTML = '';
 }
 
-export function renderClientSetupUI(handler) {
+export function renderClientSetupUI() {
     // create html elements
     const uiBox = document.createElement('div');
     const usernameLabel = document.createElement('label');
@@ -20,15 +20,11 @@ export function renderClientSetupUI(handler) {
     roomCodeInput.id = 'roomcode-input';
     usernameInput.type = 'text';
     roomCodeInput.type = 'text';
+    submitButton.id = 'submit-button';
 
     // apply css classes
     uiBox.classList.add('ui-box-center');
     uiBox.classList.add('flexbox-column-centered');
-
-    // event handler for clicking submit button
-    submitButton.addEventListener('click', async () => {
-        await handler(roomCodeInput.value, usernameInput.value);
-    });
 
     // append all the stuff to other stuff and then to the div we're returning
     usernameLabel.append(usernameInput);
