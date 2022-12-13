@@ -44,15 +44,10 @@ self.addEventListener('load', async () => {
     const response = await createGame(gameCode);
     // i have no idea why supabase is doing this?
     gameId = response[0].id;
-    console.log('response: ', response);
-    console.log('gameId: ', gameId);
     // liek and subscrib
     const newResponse = await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
-    console.log('subscription: ', newResponse);
     gameId = response.id;
     // join AI as player
-
-    // join host as player
 
     //
 });
@@ -66,6 +61,7 @@ async function startButtonEventListener() {
     gameStage = 'prompt';
     // subscribe to user updates
     subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
+    // join host as player
 }
 
 // thanks stackoverflow-might need to add something to make sure it's 4 chars?
@@ -76,7 +72,6 @@ function generateGameCode() {
 // handlers
 // this adds player objects to the object when one joins
 function subscribeToUserJoinsHandler(packet) {
-    console.log(packet);
     playersObject[packet.username] = {
         uuid: packet.client_uuid,
         score: 0,

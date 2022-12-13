@@ -52,15 +52,23 @@ export async function subscribeToUserJoins(gameId, handler) {
     return await client
         .from(`responses:game_id=eq.${gameId}`)
         .on('INSERT', (payload) => {
-            console.log(payload);
             handler(payload.new);
         })
         .subscribe();
 }
 
-export async function unsubscribeAll() {}
+export async function unsubscribeAll() {
+    return await client.removeAllSubscriptions();
+}
 
-export async function subscribeToUserResponses(user, gameId, handler) {}
+export async function subscribeToUserResponses(gameId, handler) {
+    return await client
+        .from(`responses:game_id=eq.${gameId}`)
+        .on('UPDATE', (payload) => {
+            handler(payload.new);
+        })
+        .subscribe();
+}
 
 export async function createGame(gameCode) {
     // TODO - make function check if existing running game already has this game code
