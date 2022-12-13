@@ -5,6 +5,7 @@ import {
     subscribeToUserResponses,
     sendPacket,
     checkAuth,
+    joinGame,
 } from '../fetch-utils.js';
 
 import {

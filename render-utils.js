@@ -3,7 +3,7 @@ export function clearGameWindow() {
     gameWindow.innerHTML = '';
 }
 
-export function renderClientSetupUI() {
+export function renderClientSetupUI(handler) {
     // create html elements
     const uiBox = document.createElement('div');
     const usernameLabel = document.createElement('label');
@@ -26,7 +26,9 @@ export function renderClientSetupUI() {
     uiBox.classList.add('flexbox-column-centered');
 
     // event handler for clicking submit button
-    // submitButton.addEventHandler();
+    submitButton.addEventListener('click', async () => {
+        await handler(roomCodeInput.value, usernameInput.value);
+    });
 
     // append all the stuff to other stuff and then to the div we're returning
     usernameLabel.append(usernameInput);
@@ -191,7 +193,16 @@ export function renderHostRoomSettingsUI(handler) {
     uiBox.classList.add('flexbox-column-centered');
 
     // append
-    uiBox.append(h2, timerLabel, timerInput, roundsLabel, roundsInput, startGameButton);
+    uiBox.append(
+        h2,
+        timerLabel,
+        timerInput,
+        roundsLabel,
+        roundsInput,
+        usernameLabel,
+        usernameInput,
+        startGameButton
+    );
 
     // return uiBox
     return uiBox;

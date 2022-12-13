@@ -64,6 +64,25 @@ export async function sendPacket(packet, gameStage) {}
 // client function
 export async function subscribeToHostPackets(gameCode, handler) {}
 
-export async function joinGame(gameCode) {}
+export async function joinGame(gameCode, username) {
+    // search for an open lobby with matching game code
+    const response = await client
+        .from('games')
+        .select()
+        .match({ room_code: gameCode, game_status: 'lobby' })
+        .single();
+    if (response.error) {
+        alert('No room found.');
+        return false;
+    } else {
+        // if one exists, join it by making new row on responses
+        const joinLobby = await client.from('responses').insert({
+            client_uuid: client.auth.user().id,
+            game_id: response.data.id,
+            username: username,
+        });
+        return true;
+    }
+}
 
 export async function sendResponse(gameCode, response, guess, promptText) {}
