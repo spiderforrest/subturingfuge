@@ -31,6 +31,7 @@ const correctGuessUser = 75;
 
 // initalization
 self.addEventListener('load', async () => {
+    // redirect if not logged in
     checkAuth();
     gameWindow.append(renderHostRoomSettingsUI(startButtonEventListener));
     // make a code

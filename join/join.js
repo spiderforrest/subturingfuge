@@ -8,11 +8,13 @@ import {
     renderClientRoomSettingsUI,
     renderHostRoomSettingsUI,
 } from '../render-utils.js';
-import { joinGame } from '../fetch-utils.js';
+import { joinGame, checkAuth } from '../fetch-utils.js';
 
 const gameWindow = document.getElementById('game-window');
 
 self.addEventListener('load', async () => {
+    // redirect to auth if not logged in
+    checkAuth();
     // render room join ui
     gameWindow.append(renderClientSetupUI());
     // get submit button from room join ui
@@ -22,7 +24,7 @@ self.addEventListener('load', async () => {
         // grab user-provided room code and username from UI
         const roomCodeInput = document.querySelector('#roomcode-input');
         const usernameInput = document.querySelector('#username-input');
-        await attemptJoinGame(roomCodeInput.value, usernameInput.value);
+        await attemptJoinGame(roomCodeInput.value.toUpperCase(), usernameInput.value);
     });
 });
 
