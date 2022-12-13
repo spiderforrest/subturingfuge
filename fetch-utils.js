@@ -5,9 +5,12 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Auth related functions */
 
-function catchError({ data, error }) {
-    if (error) return console.error(error);
-    return data;
+// function catchError({ data, error }) {
+//     if (error) return console.error(error);
+//     return data;
+// }
+function catchError(response) {
+    return response.error ? console.error(response.error) : response.data;
 }
 
 export function checkAuth() {
@@ -45,16 +48,25 @@ export async function signOutUser() {
 /* Data functions */
 
 // host functions:
+export async function subscribeToUserJoins(gameId, handler) {
+    return await client
+        .from(`responses:game_id=eq.${gameId}`)
+        .on('INSERT', (payload) => {
+            console.log(payload);
+            handler(payload.new);
+        })
+        .subscribe();
+}
+
 export async function unsubscribeAll() {}
 
 export async function subscribeToUserResponses(user, gameId, handler) {}
 
-export async function createGame(gameCode, handler) {
+export async function createGame(gameCode) {
     // TODO - make function check if existing running game already has this game code
     const response = await client
         .from('games')
         .insert({ game_status: 'lobby', host: client.auth.user().id, room_code: gameCode });
-    await client.from(`responses:game_id=${response.id}`).on('INSERT', handler).subscribe();
     return catchError(response);
 }
 
@@ -75,7 +87,7 @@ export async function joinGame(gameCode, username) {
         return false;
     } else {
         // if one exists, join it by making new row on responses
-        const joinLobby = await client.from('responses').insert({
+        await client.from('responses').insert({
             client_uuid: client.auth.user().id,
             game_id: response.data.id,
             username: username,

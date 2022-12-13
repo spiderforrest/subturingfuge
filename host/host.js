@@ -1,5 +1,6 @@
 import {
     createGame,
+    subscribeToUserJoins,
     unsubscribeAll,
     subscribeToUserResponses,
     sendPacket,
@@ -31,14 +32,21 @@ const correctGuessUser = 75;
 // initalization
 self.addEventListener('load', async () => {
     checkAuth();
-    gameWindow.append(renderHostRoomSettingsUI(startButtonHandler));
+    gameWindow.append(renderHostRoomSettingsUI(startButtonEventListener));
     // make a code
     gameCode = generateGameCode();
     headerBar.append(renderHostControlBar(nextButtonHandler));
     gameWindow.append(renderRoomCodeUI(gameCode));
     gameWindow.append(renderPlayerListUI(''));
     // create the game
-    const response = await createGame(gameCode, subscribeToUserJoinsHandler);
+    const response = await createGame(gameCode);
+    // i have no idea why supabase is doing this?
+    gameId = response[0].id;
+    console.log('response: ', response);
+    console.log('gameId: ', gameId);
+    // liek and subscrib
+    const newResponse = await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
+    console.log('subscription: ', newResponse);
     gameId = response.id;
     // join AI as player
 
@@ -48,7 +56,7 @@ self.addEventListener('load', async () => {
 });
 
 // launch the game
-async function startButtonHandler() {
+async function startButtonEventListener() {
     const startGameButton = document.getElementById('start-game-button');
     // stop allowing joins
     await unsubscribeAll();
@@ -60,23 +68,25 @@ async function startButtonHandler() {
 
 function getUsernameArray() {
     const usernameArray = [];
-    for (const [key, _item] of playersObject.entries()) {
+    for (const key of playersObject.keys()) {
         usernameArray.push(key);
     }
 }
 
 // thanks stackoverflow-might need to add something to make sure it's 4 chars?
 function generateGameCode() {
-    return Math.random().toString(36).slice(2, 6);
+    return Math.random().toString(36).slice(2, 6).toUpperCase();
 }
 
 // handlers
 // this adds player objects to the object when one joins
 function subscribeToUserJoinsHandler(packet) {
+    console.log(packet);
     playersObject[packet.username] = {
         uuid: packet.client_uuid,
         score: 0,
     };
+    console.log('This is inside the subscribe handler. current client list: ', playersObject);
     renderPlayerListUI(getUsernameArray());
 }
 

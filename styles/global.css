@@ -1,11 +1,11 @@
 :root {
     --background: #171717;
-    --header-background: rgba(255, 255, 255, 0.7);
-    --text-color: rgb(0, 0, 0);
-    --label-color: rgb(75, 102, 98);
+    --header-background: rgba(255, 255, 255, 0.757);
+    --text-color: rgb(255, 255, 255);
+    --label-color: #00ff41;
     --placeholder-color: rgb(136, 136, 153);
-    --offset-color: rgb(217, 236, 217);
-    --action-color: rgb(77, 132, 252);
+    --offset-color: #171717;
+    --action-color: #008f11;
 
     --primary-font: monospace, 'Rubik', Corbel, 'Lucida Grande', 'Lucida Sans Unicode',
         'Lucida Sans', 'DejaVu Sans', 'Bitstream Vera Sans', 'Liberation Sans', Verdana,
@@ -40,6 +40,7 @@ body {
 }
 
 .page-header .title {
+    color: black;
     text-align: center;
     font-size: 2em;
     font-weight: 800;
@@ -78,4 +79,8 @@ main {
 
 .logo-turing {
     color: rgb(93, 93, 93);
+}
+
+a:visited {
+    color: white;
 }
