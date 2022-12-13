@@ -1,7 +1,7 @@
 import {
     createGame,
     subscribeToUserJoins,
-    unsubscribeToUserJoins,
+    unsubscribeAll,
     subscribeToUserResponses,
     sendPacket,
     checkAuth,
@@ -21,7 +21,7 @@ const gameWindow = document.getElementById('game-window');
 const headerBar = document.querySelector('.page-header');
 
 // state
-let gameCode, gameStage;
+let gameCode, gameId, gameStage;
 const playersObject = {};
 let promptArray = [];
 let responseArray = [];
@@ -39,7 +39,8 @@ self.addEventListener('load', async () => {
     gameWindow.append(renderRoomCodeUI(gameCode));
     gameWindow.append(renderPlayerListUI(''));
     // create the game
-    await createGame(gameCode);
+    const response = await createGame(gameCode);
+    gameId = response.id;
     // start listening for user joins
     await subscribeToUserJoins(gameCode, subscribeToUserJoinsHandler);
     // join AI as player
@@ -53,9 +54,13 @@ self.addEventListener('load', async () => {
 async function startButtonHandler() {
     const startGameButton = document.getElementById('start-game-button');
     // stop allowing joins
-    await unsubscribeToUserJoins(gameCode, subscribeToUserJoinsHandler);
+    await unsubscribeAll();
     // set the game stage to the prompt stage
     gameStage = 'prompt';
+    // subscribe to user updates
+    for (const item of getUsernameArray()) {
+        subscribeToUserResponses(item, gameId, subscribeToUserResponsesHandler);
+    }
 }
 
 function getUsernameArray() {
@@ -135,7 +140,6 @@ function nextButtonHandler() {
             endGame();
             break;
     }
-    console.log('suck it nerds');
 }
 
 // main game functions, they run at the START of the stage they're named
