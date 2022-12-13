@@ -44,7 +44,6 @@ self.addEventListener('load', async () => {
     const response = await createGame(gameCode);
     // i have no idea why supabase is doing this?
     gameId = response[0].id;
-    console.log(gameId);
     // liek and subscrib
     const newResponse = await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
     // join AI as player
@@ -60,7 +59,6 @@ async function startButtonEventListener() {
     // set the game stage to the prompt stage
     gameStage = 'prompt';
     // subscribe to user updates
-    console.log(gameId);
     subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
     // join host as player
     await nextButtonHandler();

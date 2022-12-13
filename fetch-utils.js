@@ -62,7 +62,6 @@ export async function unsubscribeAll() {
 }
 
 export async function subscribeToUserResponses(gameId, handler) {
-    console.log(gameId);
     return await client
         .from(`responses:game_id=eq.${gameId}`)
         .on('UPDATE', (payload) => {
@@ -80,7 +79,6 @@ export async function createGame(gameCode) {
 }
 
 export async function sendPacket(packet, gameStage, gameID) {
-    console.log(gameID);
     const response = await client
         .from('games')
         .update({ game_status: gameStage, state: packet })
