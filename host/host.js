@@ -1,11 +1,10 @@
 import {
     createGame,
     subscribeToUserJoins,
-    unsubscribeAll,
+    unsubscribeJoins,
     subscribeToUserResponses,
     sendPacket,
     checkAuth,
-    joinGame,
 } from '../fetch-utils.js';
 
 import {
@@ -34,6 +33,7 @@ let responseArray = [];
 const correctGuessAi = 200;
 const correctGuessHuman = 75;
 let openAPIKey;
+let joinSubscription;
 
 // initalization
 self.addEventListener('load', async () => {
@@ -50,15 +50,17 @@ self.addEventListener('load', async () => {
     // i have no idea why supabase is doing this?
     gameId = response[0].id;
     // liek and subscrib
-    await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
+    joinSubscription = await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
 });
 
 // launch the game
 async function startButtonEventListener() {
     // get the key
     openAPIKey = document.getElementById('api-key-input').value;
+    if (!openAPIKey) alert('Please input a key');
     // join host as player
     const hostUsernameEl = document.getElementById('host-username-input');
+    console.log(gameCode, hostUsernameEl.value);
     await attemptJoinGame(gameCode, hostUsernameEl.value);
 }
 
@@ -115,7 +117,7 @@ async function nextButtonHandler() {
     switch (gameStage) {
         case 'lobby':
             // stop allowing joins
-            await unsubscribeAll();
+            unsubscribeJoins(joinSubscription);
             // subscribe to user updates
             subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
             // start prompt stage

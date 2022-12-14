@@ -64,7 +64,7 @@ export async function attemptJoinGame(code, username) {
 }
 
 function subscribeToHostPacketsHandler(packet) {
-    console.log('client packet recieved');
+    console.log('client packet recieved', packet);
     switch (packet.game_status) {
         // prompt stage
         case 'prompt':

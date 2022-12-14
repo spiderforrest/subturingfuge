@@ -57,8 +57,8 @@ export async function subscribeToUserJoins(gameId, handler) {
         .subscribe();
 }
 
-export async function unsubscribeAll() {
-    return await client.removeAllSubscriptions();
+export async function unsubscribeJoins(sub) {
+    await client.removeSubscription(sub);
 }
 
 export async function subscribeToUserResponses(gameId, handler) {
