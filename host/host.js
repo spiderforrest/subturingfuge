@@ -198,7 +198,8 @@ function callOpenAI(API_KEY, PROMPT) {
     xhr.open('POST', 'https://api.openai.com/v1/engines/davinci/completions', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Authorization', 'Bearer ' + API_KEY);
-    xhr.onreadystatechange = function () {
+    // i also named this function because eslint is snarky
+    xhr.onreadystatechange = function tmp() {
         if (xhr.readyState === 4) {
             response = JSON.parse(xhr.responseText);
             text = response.choices[0].text;
