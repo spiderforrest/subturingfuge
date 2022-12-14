@@ -94,7 +94,6 @@ function clientPromptStage() {
         // push submitted prompt to supabase
         await sendPrompt(joinedGameID, promptInput.value);
         promptInput.value = '';
-        promptSubmitBtn.disabled = true;
         promptSubmitBtn.textContent = 'submitted!';
     });
 }
