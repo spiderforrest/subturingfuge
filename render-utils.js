@@ -353,3 +353,28 @@ export function renderResultsPageUI(results) {
 
     return uiBox;
 }
+
+export function renderScoreboard(players) {
+    // create elements
+    const uiBox = document.getElementById('div');
+    const h2 = document.createElement('h2');
+    const scoresEl = document.getElementById('ul');
+    // set contents
+    h2.textContent = 'Scores:';
+    // set classes
+    uiBox.classList.add('ui-box-right-column-mid-bottom');
+    uiBox.classList.add('flexbox-column-centered');
+    // loop through players and create username/score objects
+    for (const [username, obj] of Object.entries(players)) {
+        // create score entry
+        const scoreEl = document.createElement('li');
+        // set text content of score entry to 'username: score'
+        scoreEl.textContent = `${username}: ${obj.score}`;
+        // add each score list item to scores list
+        scoresEl.append(scoreEl);
+    }
+    // append
+    uiBox.append(h2, scoresEl);
+    // return uiBox
+    return uiBox;
+}
