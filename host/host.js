@@ -143,11 +143,8 @@ async function nextButtonHandler() {
 async function responseStage() {
     // reset responses
     responseArray = [];
-    // pick a prompt
-    const randNum = Math.floor(Math.random() * promptArray.length);
-    const activePrompt = promptArray[randNum];
-    // remove the prompt from promptArray
-    promptArray = promptArray.splice(randNum, 1);
+    // pop prompt
+    const activePrompt = promptArray.shift();
     // send out packet with prompt
     await sendPacket({ promptText: activePrompt }, 'response', gameId);
     // get the GPT response
