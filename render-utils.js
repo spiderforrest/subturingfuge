@@ -171,6 +171,8 @@ export function renderHostRoomSettingsUI(handler) {
     const roundsInput = document.createElement('input');
     const usernameLabel = document.createElement('label');
     const usernameInput = document.createElement('input');
+    const APIKeyLabel = document.createElement('label');
+    const APIKeyInput = document.createElement('input');
     const startGameButton = document.createElement('button');
 
     // set contents
@@ -182,6 +184,9 @@ export function renderHostRoomSettingsUI(handler) {
     usernameLabel.textContent = 'Username: ';
     usernameInput.id = 'username-input';
     usernameInput.type = 'text';
+    APIKeyLabel.textContent = 'OpenAI API key: ';
+    APIKeyInput.id = 'api-key-input';
+    APIKeyInput.type = 'text';
     startGameButton.textContent = 'START GAME';
 
     // event listener
@@ -203,6 +208,8 @@ export function renderHostRoomSettingsUI(handler) {
         roundsInput,
         usernameLabel,
         usernameInput,
+        APIKeyLabel,
+        APIKeyInput,
         startGameButton
     );
 
