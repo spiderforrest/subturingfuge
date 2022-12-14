@@ -9,6 +9,7 @@ import {
     renderClientRoomSettingsUI,
     renderHostRoomSettingsUI,
     renderResultsPageUI,
+    renderPromptTopUI,
 } from '../render-utils.js';
 import {
     joinGame,
@@ -24,6 +25,7 @@ const gameWindow = document.getElementById('game-window');
 // game state vars
 let joinedGameCode;
 let joinedGameID;
+let currentPrompt = '(no current prompt!)';
 
 self.addEventListener('load', () => {
     // redirect to auth if not logged in
@@ -70,6 +72,7 @@ function subscribeToHostPacketsHandler(packet) {
             break;
         case 'response':
             clientResponseStage(packet.state.promptText);
+            currentPrompt = packet.state.promptText;
             break;
         case 'guess':
             clientGuessesStage(packet.state);
@@ -114,6 +117,7 @@ function clientGuessesStage(dataObj) {
     // rendering
     clearGameWindow();
     gameWindow.append(renderGuessesStageUI(dataObj.responses, dataObj.usernames));
+    gameWindow.append(renderPromptTopUI(currentPrompt));
     // grabbing DOM element and targeting form data
     const guessForm = document.querySelector('#guess-form');
     const submitButton = document.querySelector('#guess-submit-button');
@@ -141,6 +145,7 @@ function clientGuessesStage(dataObj) {
 
 function clientResultsStage(dataObj) {
     clearGameWindow();
+    gameWindow.append(renderPromptTopUI(currentPrompt));
     // pass incoming data to render function
     gameWindow.append(renderResultsPageUI(dataObj));
 }
