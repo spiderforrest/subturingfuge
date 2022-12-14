@@ -299,3 +299,14 @@ export function renderPromptTopUI(promptText) {
     // append
     uiBox.append(h3, promptDisplay);
 }
+
+export function renderResultsPageUI(results) {
+    // create elements
+    const uiBox = document.createElement('div');
+    // for each response, create a new div to display it
+    for () {
+
+    }
+
+
+}
