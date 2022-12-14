@@ -23,7 +23,7 @@ const gameWindow = document.getElementById('game-window');
 let joinedGameCode;
 let joinedGameID;
 
-self.addEventListener('load', async () => {
+self.addEventListener('load', () => {
     // redirect to auth if not logged in
     checkAuth();
     // render room join ui
@@ -60,6 +60,7 @@ async function attemptJoinGame(code, username) {
 }
 
 function subscribeToHostPacketsHandler(packet) {
+    console.log(packet);
     switch (packet.game_status) {
         // prompt stage
         case 'prompt':
@@ -72,7 +73,7 @@ function subscribeToHostPacketsHandler(packet) {
             clientGuessesStage();
             break;
         case 'results':
-            clientResultsStage();
+            // clientResultsStage();
             break;
     }
 }

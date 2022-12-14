@@ -56,13 +56,12 @@ async function startButtonEventListener() {
     const startGameButton = document.getElementById('start-game-button');
     // stop allowing joins
     await unsubscribeAll();
-    // set the game stage to the prompt stage
-    gameStage = 'prompt';
     // subscribe to user updates
     subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
+    // start prompt stage
+    gameStage = 'prompt';
+    await sendPacket({}, 'prompt', gameId);
     // join host as player
-    // call the next button handler, to start the promp stage as if midround
-    await nextButtonHandler();
 }
 
 // thanks stackoverflow-might need to add something to make sure it's 4 chars?
@@ -114,6 +113,7 @@ function subscribeToUserResponsesHandler(packet) {
 // kinda the main loop here
 // when the next button is clicked, check gameStage to determine what needs to be ran
 async function nextButtonHandler() {
+    console.log(gameStage);
     switch (gameStage) {
         // end prompt stage
         case 'prompt':
@@ -148,7 +148,7 @@ async function responseStage() {
     // remove the prompt from promptArray
     promptArray = promptArray.splice(randNum, 1);
     // send out packet with prompt
-    await sendPacket({ promptText: activePrompt }, 'prompt', gameId);
+    await sendPacket({ promptText: activePrompt }, 'response', gameId);
     // get the GPT response
 }
 async function guessesStage() {
@@ -173,6 +173,7 @@ async function resultsStage() {
     // hard part: tally everyone's scores
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
     for (const responseObject of responseArray) {
+        console.log(responseObject);
         for (const [guesser, guess] of responseObject.guesses.entries()) {
             // check if the guess is right
             if (guess === responseObject.username) {

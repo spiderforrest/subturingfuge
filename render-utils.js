@@ -87,9 +87,6 @@ export function renderResponseEntryUI(promptText) {
     uiBox.classList.add('ui-box-center');
     uiBox.classList.add('flexbox-column-centered');
 
-    // event handler for clicking submit button
-    // submitButton.addEventHandler();
-
     // append all the stuff to other stuff and then to the div we're returning
     promptLabel.append(promptDisplay);
     responseLabel.append(responseInput);
