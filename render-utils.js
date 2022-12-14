@@ -313,9 +313,9 @@ export function renderResultsPageUI(results) {
         responseAuthor.textContent = `${response.username}'s response:`;
         responseEl.classList.add('results-page-response-box');
         responseEl.classList.add('flexbox-column-centered');
-        responseText.textContent = response;
+        responseText.textContent = response.response;
         // render, display, append users' guesses to response
-        for (const [guessor, guessee] of response.guesses.entries()) {
+        for (const [guessor, guessee] of Object.entries(response.guesses)) {
             const guessText = document.createElement('p');
             guessText.textContent = `${guessor} guessed ${guessee}`;
             // if user guessed correctly, color their guess green and append points awarded

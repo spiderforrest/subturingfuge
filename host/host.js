@@ -133,8 +133,7 @@ async function nextButtonHandler() {
             break;
         case 'results':
             // TODO: check if there's more prompts and set to response
-            gameStage = 'over';
-            await endGame();
+            gameStage = promptArray.length === 0 ? 'over' : 'response';
             break;
     }
 }
