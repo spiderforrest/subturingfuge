@@ -8,6 +8,7 @@ import {
     renderRoomCodeUI,
     renderClientRoomSettingsUI,
     renderHostRoomSettingsUI,
+    renderResultsPageUI,
 } from '../render-utils.js';
 import {
     joinGame,
@@ -132,4 +133,10 @@ function clientGuessesStage(dataObj) {
         // send guess array to host
         await sendGuess(joinedGameID, guessArray);
     });
+}
+
+function clientResultsStage(results) {
+    clearGameWindow();
+    // pass incoming data to render function
+    gameWindow.append(renderResultsPageUI(results));
 }
