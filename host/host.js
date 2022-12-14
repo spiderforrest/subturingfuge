@@ -132,8 +132,9 @@ async function nextButtonHandler() {
             await resultsStage();
             break;
         case 'results':
-            // TODO: check if there's more prompts and set to response
-            gameStage = promptArray.length === 0 ? 'over' : 'response';
+            // TODO: check if there's more prompts and set to prompt-it's not prompt, but it'll move on to response when next is
+            // clicked. whatever.
+            gameStage = promptArray.length === 0 ? 'over' : 'prompt';
             break;
     }
 }
