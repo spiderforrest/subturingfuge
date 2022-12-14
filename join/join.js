@@ -10,6 +10,7 @@ import {
     renderHostRoomSettingsUI,
     renderResultsPageUI,
     renderPromptTopUI,
+    renderScoreboard,
 } from '../render-utils.js';
 import {
     joinGame,
@@ -147,4 +148,5 @@ function clientResultsStage(dataObj) {
     gameWindow.append(renderPromptTopUI(currentPrompt));
     // pass incoming data to render function
     gameWindow.append(renderResultsPageUI(dataObj));
+    gameWindow.append(renderScoreboard(dataObj.scores));
 }
