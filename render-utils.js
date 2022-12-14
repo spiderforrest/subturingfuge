@@ -214,27 +214,29 @@ export function renderHostRoomSettingsUI(handler) {
 export function renderGuessesStageUI(responseList, playerList) {
     // create elements
     const uiBox = document.createElement('div');
+    const form = document.createElement('form');
     const h2 = document.createElement('h2');
     const submitButton = document.createElement('button');
     // set contents
     h2.textContent = 'Guess who said what!';
     submitButton.textContent = 'Submit';
     submitButton.id = 'guess-submit-button';
+    form.id = 'guess-form';
     // apply css
     uiBox.classList.add('ui-box-middle-column-full');
     uiBox.classList.add('flexbox-column-centered');
     // append
-    uiBox.append(h2);
     // iterate through response list, render UI element for each, append to uiBox
-    for (let response of responseList) {
-        uiBox.append(renderPlayerResponsePairs(playerList, response));
+    for (let [index, response] of responseList.entries()) {
+        form.append(renderPlayerResponsePairs(playerList, response, index));
     }
-    uiBox.append(submitButton);
+    form.append(submitButton);
+    uiBox.append(h2, form);
     // return uiBox
     return uiBox;
 }
 
-function renderPlayerResponsePairs(playerList, response) {
+function renderPlayerResponsePairs(playerList, response, index) {
     // create elements
     const pairDiv = document.createElement('div');
     const playerSelect = document.createElement('select');
@@ -248,6 +250,7 @@ function renderPlayerResponsePairs(playerList, response) {
         const playerOption = document.createElement('option');
         //add .username
         playerOption.textContent = player;
+        playerOption.name = index;
         playerOption.value = player;
         playerSelect.append(playerOption);
     }

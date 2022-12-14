@@ -107,10 +107,27 @@ function clientResponseStage(promptText) {
 }
 
 function clientGuessesStage(dataObj) {
-    console.log(dataObj);
     // rendering
     clearGameWindow();
     gameWindow.append(renderGuessesStageUI(dataObj.responses, dataObj.usernames));
-    const submitButton = document.getElementById('guess-submit-button');
-    submitButton.addEventListener('click', async () => {});
+    // grabbing DOM element and targeting form data
+    const guessForm = document.querySelector('#guess-form');
+    const formData = new FormData(guessForm);
+    // on submit, gather guess/user pairs and submit to host
+    guessForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        // create empty array for guesses to send to the host once populated
+        const guessArray = [];
+        // gather all of the response/guess pairs by getting each index from the response array
+        for (const [index, _response] of dataObj.responses.entries()) {
+            guessArray.push({
+                // use the index of the response as a response id
+                id: index,
+                // fetch the associated response's username guess
+                username: formData.get(`${index}`),
+            });
+        }
+        // send guess array to host
+        await sendGuess(joinedGameID, guessArray);
+    });
 }
