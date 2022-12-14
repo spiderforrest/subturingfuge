@@ -32,6 +32,7 @@ let responseArray = [];
 // i have no idea how to balance a game, TODO: anyone else pick better values
 const correctGuessAi = 200;
 const correctGuessHuman = 75;
+const trickedBonus = 400;
 let openAPIKey;
 let joinSubscription;
 
@@ -182,10 +183,23 @@ async function resultsStage() {
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
     for (const responseObject of responseArray) {
         for (const [guesser, guess] of Object.entries(responseObject.guesses)) {
-            // check if the guess is right
-            if (guess === responseObject.username) {
-                // add appropriate score
-                playersObject[guesser] += guess === 'ai' ? correctGuessAi : correctGuessHuman;
+            // if the response was by the ai, reward it points when people guess it's human, and vise versa
+            if (responseObject.username === 'ai') {
+                // give ai points for tricking ppl
+                if (guess !== 'ai' || '') {
+                    playersObject.ai += trickedBonus;
+                }
+                // if the response was written by a user:
+            } else {
+                // check if the guess is right
+                if (guess === responseObject.username) {
+                    // add appropriate score
+                    playersObject[guesser] += guess === 'ai' ? correctGuessAi : correctGuessHuman;
+                }
+                // if the guess was ai, give the author the tricking bonus
+                if (guess === 'ai') {
+                    playersObject[responseObject.username] += trickedBonus;
+                }
             }
         }
     }
@@ -223,8 +237,8 @@ function callOpenAI(API_KEY, PROMPT) {
     xhr.send(
         JSON.stringify({
             prompt: PROMPT,
-            max_tokens: 100,
-            temperature: 0.7,
+            max_tokens: 50,
+            temperature: 0.85,
             top_p: 0.9,
             n: 1,
             stream: false,
