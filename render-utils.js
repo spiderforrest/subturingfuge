@@ -223,7 +223,7 @@ export function renderGuessesStageUI(responseList, playerList) {
     submitButton.id = 'guess-submit-button';
     form.id = 'guess-form';
     // apply css
-    uiBox.classList.add('ui-box-middle-column-full');
+    uiBox.classList.add('ui-box-middle-column-mid-bottom');
     uiBox.classList.add('flexbox-column-centered');
     // append
     // iterate through response list, render UI element for each, append to uiBox
@@ -280,4 +280,22 @@ export function renderHostControlBar(handler) {
     navBar.append(nextButton);
     // return navBar
     return navBar;
+}
+
+export function renderPromptTopUI(promptText) {
+    // create elements
+    const uiBox = document.createElement('div');
+    const h3 = document.createElement('h3');
+    const promptDisplay = document.createElement('h3');
+
+    // set contents
+    h3.textContent = 'The prompt is:';
+    promptDisplay.textContent = promptText;
+
+    // set classes
+    uiBox.classList.add('ui-box-middle-column-top');
+    uiBox.classList.add('flexbox-column-centered');
+
+    // append
+    uiBox.append(h3, promptDisplay);
 }

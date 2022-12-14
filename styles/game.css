@@ -34,10 +34,25 @@ main {
     grid-row: 3 / 4;
     border: thick double black;
 }
+
 .ui-box-middle-column-full {
     background-color: #171717;
     grid-column: 2/3;
     grid-row: 1/4;
+    border: thick double black;
+}
+
+.ui-box-middle-column-mid-bottom {
+    background-color: #171717;
+    grid-column: 2/3;
+    grid-row: 2/4;
+    border: thick double black;
+}
+
+.ui-box-middle-column-top {
+    background-color: #171717;
+    grid-column: 2/3;
+    grid-row: 1/2;
     border: thick double black;
 }
 
