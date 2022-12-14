@@ -61,6 +61,7 @@ async function startButtonEventListener() {
     // subscribe to user updates
     subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
     // join host as player
+    // call the next button handler, to start the promp stage as if midround
     await nextButtonHandler();
 }
 

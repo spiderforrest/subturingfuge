@@ -50,28 +50,29 @@ async function attemptJoinGame(code, username) {
         return;
     }
     // attempt to join game, continue to next screen if successful
-    const maybeID = await joinGame(code, username);
-    if (maybeID) {
+    joinedGameID = await joinGame(code, username);
+    if (joinedGameID) {
         joinedGameCode = code;
         clearGameWindow();
         gameWindow.append(renderClientRoomSettingsUI('placeholder'), renderRoomCodeUI(code));
         await subscribeToHostPackets(code, subscribeToHostPacketsHandler);
-    } else {
-        joinedGameID = maybeID;
-        return;
     }
 }
 
-function subscribeToHostPacketsHandler(payload) {
+function subscribeToHostPacketsHandler(packet) {
     switch (payload.game_status) {
         // prompt stage
         case 'prompt':
+            clientPromptStage();
             break;
         case 'response':
+            clientResponseStage(packet.state.promptText);
             break;
         case 'guesses':
+            clientGuessesStage();
             break;
         case 'results':
+            clientResultsStage();
             break;
     }
 }
@@ -83,8 +84,22 @@ function clientPromptStage() {
     // event handler for client submitting prompt
     const promptInput = document.getElementById('prompt-input');
     const promptSubmitBtn = document.getElementById('prompt-submit-button');
-    promptSubmitBtn.addEventHandler('click', async () => {
+    promptSubmitBtn.addEventListener('click', async () => {
         // push submitted prompt to supabase
         await sendPrompt(joinedGameID, promptInput.value);
+        promptInput.value = '';
+    });
+}
+
+function clientResponseStage(promptText) {
+    // rendering
+    clearGameWindow();
+    gameWindow.append(renderResponseEntryUI(promptText));
+    const submitButton = document.getElementById('response-submit-button');
+    const input = document.getElementById('response-input');
+    submitButton.addEventListener('click', async () => {
+        await sendResponse(joinedGameID, input.value);
+        input.value = '';
+        submitButton.disabled = true;
     });
 }

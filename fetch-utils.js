@@ -117,14 +117,26 @@ export async function joinGame(gameCode, username) {
     }
 }
 
-export async function sendPrompt(gameID, promptText) {
-    const response = await client
+export async function sendPrompt(gameId, promptText) {
+    await client
         .from('responses')
         .update({ prompt_text: promptText })
-        .match({ client_uuid: client.auth.user().id, game_id: gameID })
+        .match({ client_uuid: client.auth.user().id, game_id: gameId })
         .single();
 }
 
-export async function sendResponse(gameCode, response) {}
+export async function sendResponse(gameId, response) {
+    await client
+        .from('responses')
+        .update({ response: response })
+        .match({ client_uuid: client.auth.user().id, game_id: gameId })
+        .single();
+}
 
-export async function sendGuess(gameCode, guess) {}
+export async function sendGuess(gameId, guess) {
+    await client
+        .from('responses')
+        .update({ guess: guess })
+        .match({ client_uuid: client.auth.user().id, game_id: gameId })
+        .single();
+}
