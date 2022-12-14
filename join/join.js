@@ -117,6 +117,7 @@ function clientGuessesStage(dataObj) {
     // rendering
     clearGameWindow();
     gameWindow.append(renderGuessesStageUI(dataObj.responses, dataObj.usernames));
+    console.log('current prompt', currentPrompt);
     gameWindow.append(renderPromptTopUI(currentPrompt));
     // grabbing DOM element and targeting form data
     const guessForm = document.querySelector('#guess-form');

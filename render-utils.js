@@ -305,6 +305,7 @@ export function renderPromptTopUI(promptText) {
 
     // append
     uiBox.append(h3, promptDisplay);
+    return uiBox;
 }
 
 export function renderResultsPageUI(results) {
