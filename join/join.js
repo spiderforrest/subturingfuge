@@ -60,7 +60,7 @@ async function attemptJoinGame(code, username) {
 }
 
 function subscribeToHostPacketsHandler(packet) {
-    switch (payload.game_status) {
+    switch (packet.game_status) {
         // prompt stage
         case 'prompt':
             clientPromptStage();
