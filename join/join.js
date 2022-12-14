@@ -3,6 +3,7 @@ import {
     renderClientSetupUI,
     renderPromptEntryUI,
     renderResponseEntryUI,
+    renderGuessesStageUI,
     renderPlayerListUI,
     renderRoomCodeUI,
     renderClientRoomSettingsUI,
@@ -69,8 +70,8 @@ function subscribeToHostPacketsHandler(packet) {
         case 'response':
             clientResponseStage(packet.state.promptText);
             break;
-        case 'guesses':
-            clientGuessesStage();
+        case 'guess':
+            clientGuessesStage(packet.state);
             break;
         case 'results':
             // clientResultsStage();
@@ -103,4 +104,13 @@ function clientResponseStage(promptText) {
         input.value = '';
         submitButton.disabled = true;
     });
+}
+
+function clientGuessesStage(dataObj) {
+    console.log(dataObj);
+    // rendering
+    clearGameWindow();
+    gameWindow.append(renderGuessesStageUI(dataObj.responses, dataObj.usernames));
+    const submitButton = document.getElementById('guess-submit-button');
+    submitButton.addEventListener('click', async () => {});
 }

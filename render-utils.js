@@ -211,7 +211,7 @@ export function renderHostRoomSettingsUI(handler) {
 }
 
 //async later probably
-export function renderWhoSaidWhatUI(playerList, responseList) {
+export function renderGuessesStageUI(responseList, playerList) {
     // create elements
     const uiBox = document.createElement('div');
     const h2 = document.createElement('h2');
@@ -220,10 +220,6 @@ export function renderWhoSaidWhatUI(playerList, responseList) {
     h2.textContent = 'Guess who said what!';
     submitButton.textContent = 'Submit';
     submitButton.id = 'guess-submit-button';
-    // event listener
-    submitButton.addEventListener('click', async () => {
-        console.log("dang ol' submit button pushed");
-    });
     // apply css
     uiBox.classList.add('ui-box-middle-column-full');
     uiBox.classList.add('flexbox-column-centered');

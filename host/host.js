@@ -156,7 +156,7 @@ async function guessesStage() {
     // send out all the response text and usernames as seperate arrays
     // create the object to put in the packet
     const state = {
-        response: [],
+        responses: [],
         usernames: [],
     };
     // propogate the arrays with the raw list of usernames/responses-the local player/responseArray can't be sent out as they contain
@@ -165,7 +165,7 @@ async function guessesStage() {
     // PRESERVING ORDER IS IMPORTANT: the client will respond with an array of objects containing the index of the response and their
     // guess. so please don't rewrite this to scramble that.
     for (const item of responseArray) {
-        state.response.push(item.response);
+        state.responses.push(item.response);
     }
     await sendPacket(state, 'guess', gameId);
 }
