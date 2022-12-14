@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- metadata -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <!-- title and favicon -->
+        <title>Supabase Web App</title>
+        <link rel="icon" type="image/x-icon" href="/assets/alchemy-favicon.png" />
+
+        <!-- js -->
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/umd/supabase.min.js"
+        ></script>
+        <script type="module" src="app.js"></script>
+
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&family=Titillium+Web:wght@200;400;600&display=swap"
+        />
+
+        <!-- css -->
+        <link rel="stylesheet" href="/styles/reset.css" />
+        <link rel="stylesheet" href="/styles/global.css" />
+        <link rel="stylesheet" href="/styles/credits.css" />
+        <!-- add link for page specific css -->
+    </head>
+
+    <body>
+        <header class="page-header">
+            <p class="title">
+                sub<span class="logo-bracket">[</span><span class="logo-turing">turing</span
+                ><span class="logo-bracket">]</span>fuge
+            </p>
+        </header>
+
+        <main>
+            <a class="menu-item" href="/">Back to Main Menu</a>
+            <p>Sub[turing]fuge is a multiplayer party game where the goal is to trick your friends into thinking you're an AI. When the game begins, you'll see the prompt entry screen.</p>
+            <h4>Prompt Entry</h4>
+            <p>All human players a prompt, one of which will be used in the upcoming round. What you enter here is what the AI (and other players pretending to be the AI) will respond to, so try to make sure it's comprehensible! You can even establish context for your prompt (for example, you could start your prompt with "You are an advanced AI whose goal is to...")</p>
+            <p>After that, each round of the game consists of three phases:</p>
+            <h4>Prompt Response</h4>
+            <p>One of the prompts is picked, and the players and AI all answer it.</p>
+            <h4>Guessing</h4>
+            <p>All human players guess who said what! You won't be awarded any points for identifying your own response as yourself.</p>
+            <h4>Results</h4>
+            <p>Who wrote what is revealed! If you correctly identified the AI's response, you get 200 points, and if you correctly identified a human player's response, you get 75 points. The game then continues, playing one round for each prompt submitted.</p>
+            <h3>Remember: Think like an AI!</h4>
+        </main>
+
+        <div class="lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <p id="logged-in-user-email"></p>
+    </body>
+</html>
