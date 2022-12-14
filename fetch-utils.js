@@ -136,7 +136,7 @@ export async function sendResponse(gameId, response) {
 export async function sendGuess(gameId, guess) {
     await client
         .from('responses')
-        .update({ guess: guess })
+        .update({ guesses: guess })
         .match({ client_uuid: client.auth.user().id, game_id: gameId })
         .single();
 }
