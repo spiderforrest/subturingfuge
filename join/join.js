@@ -47,7 +47,7 @@ self.addEventListener('load', () => {
 // - write functions for transitioning between game stages for client
 // - write fetch functions for client
 
-async function attemptJoinGame(code, username) {
+export async function attemptJoinGame(code, username) {
     // make sure username is provided
     if (!username) {
         alert('you need a username, dingus!');
@@ -64,7 +64,7 @@ async function attemptJoinGame(code, username) {
 }
 
 function subscribeToHostPacketsHandler(packet) {
-    console.log(packet);
+    console.log('client packet recieved');
     switch (packet.game_status) {
         // prompt stage
         case 'prompt':
@@ -117,7 +117,6 @@ function clientGuessesStage(dataObj) {
     // rendering
     clearGameWindow();
     gameWindow.append(renderGuessesStageUI(dataObj.responses, dataObj.usernames));
-    console.log('current prompt', currentPrompt);
     gameWindow.append(renderPromptTopUI(currentPrompt));
     // grabbing DOM element and targeting form data
     const guessForm = document.querySelector('#guess-form');

@@ -182,7 +182,7 @@ export function renderHostRoomSettingsUI(handler) {
     roundsLabel.textContent = 'Rounds: (dummied out)';
     roundsInput.disabled = true;
     usernameLabel.textContent = 'Username: ';
-    usernameInput.id = 'username-input';
+    usernameInput.id = 'host-username-input';
     usernameInput.type = 'text';
     APIKeyLabel.textContent = 'OpenAI API key: ';
     APIKeyInput.id = 'api-key-input';

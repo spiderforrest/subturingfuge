@@ -15,12 +15,17 @@ import {
     renderHostControlBar,
 } from '../render-utils.js';
 
+// the host will just join as another client
+import { attemptJoinGame } from '../join/join.js';
+
 // dom
 const gameWindow = document.getElementById('game-window');
 const headerBar = document.querySelector('.page-header');
 
 // state
-let gameCode, gameId, gameStage;
+let gameCode, gameId;
+let gameStage = 'lobby';
+// hard code in the ai's presence
 const playersObject = { ai: { score: 0 } };
 const usernameArray = ['ai'];
 const promptArray = [];
@@ -52,14 +57,9 @@ self.addEventListener('load', async () => {
 async function startButtonEventListener() {
     // get the key
     openAPIKey = document.getElementById('api-key-input').value;
-    // stop allowing joins
-    await unsubscribeAll();
-    // subscribe to user updates
-    subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
-    // start prompt stage
-    gameStage = 'prompt';
-    await sendPacket({}, 'prompt', gameId);
     // join host as player
+    const hostUsernameEl = document.getElementById('host-username-input');
+    await attemptJoinGame(gameCode, hostUsernameEl.value);
 }
 
 // thanks stackoverflow-might need to add something to make sure it's 4 chars?
@@ -111,7 +111,17 @@ function subscribeToUserResponsesHandler(packet) {
 // kinda the main loop here
 // when the next button is clicked, check gameStage to determine what needs to be ran
 async function nextButtonHandler() {
+    console.log(gameStage);
     switch (gameStage) {
+        case 'lobby':
+            // stop allowing joins
+            await unsubscribeAll();
+            // subscribe to user updates
+            subscribeToUserResponses(gameId, subscribeToUserResponsesHandler);
+            // start prompt stage
+            gameStage = 'prompt';
+            await sendPacket({}, 'prompt', gameId);
+            break;
         // end prompt stage
         case 'prompt':
             // move to the response stage
@@ -203,7 +213,6 @@ function callOpenAI(API_KEY, PROMPT) {
         if (xhr.readyState === 4) {
             response = JSON.parse(xhr.responseText);
             text = response.choices[0].text;
-            console.log('ai response?', text);
             // here i added the code to take the response and input it into the game state
             subscribeToUserResponsesHandler({ username: 'ai', response: text });
         }
