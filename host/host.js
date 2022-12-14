@@ -16,7 +16,6 @@ import {
 } from '../render-utils.js';
 
 // dom
-const nextButton = document.getElementById('next-button');
 const gameWindow = document.getElementById('game-window');
 const headerBar = document.querySelector('.page-header');
 
@@ -24,7 +23,7 @@ const headerBar = document.querySelector('.page-header');
 let gameCode, gameId, gameStage;
 const playersObject = {};
 const usernameArray = [];
-let promptArray = [];
+const promptArray = [];
 let responseArray = [];
 // i have no idea how to balance a game, TODO: anyone else pick better values
 const correctGuessAi = 200;
@@ -45,7 +44,7 @@ self.addEventListener('load', async () => {
     // i have no idea why supabase is doing this?
     gameId = response[0].id;
     // liek and subscrib
-    const newResponse = await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
+    await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
     // join AI as player
 
     //
@@ -53,7 +52,6 @@ self.addEventListener('load', async () => {
 
 // launch the game
 async function startButtonEventListener() {
-    const startGameButton = document.getElementById('start-game-button');
     // stop allowing joins
     await unsubscribeAll();
     // subscribe to user updates
@@ -103,7 +101,6 @@ function subscribeToUserResponsesHandler(packet) {
                 // i hate this
                 // i love this
                 // go to index item.id in the array, in that object there's an object named guesses, and in that object add guesserUsername:guess-eeUsername
-                console.log(item);
                 responseArray[item.id].guesses[packet.username] = item.username;
                 // final structure of an item in responseArray: {uuid:, username:, response:, guesses:{playerXGuess:playerYUsername...}}
             }
@@ -114,7 +111,6 @@ function subscribeToUserResponsesHandler(packet) {
 // kinda the main loop here
 // when the next button is clicked, check gameStage to determine what needs to be ran
 async function nextButtonHandler() {
-    console.log(gameStage);
     switch (gameStage) {
         // end prompt stage
         case 'prompt':
@@ -170,10 +166,7 @@ async function guessesStage() {
 async function resultsStage() {
     // hard part: tally everyone's scores
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
-    console.log(responseArray);
     for (const responseObject of responseArray) {
-        console.log(responseObject);
-        console.log(responseObject.guesses);
         for (const [guesser, guess] of Object.entries(responseObject.guesses)) {
             // check if the guess is right
             if (guess === responseObject.username) {
@@ -194,3 +187,35 @@ async function resultsStage() {
     );
 }
 async function endGame() {}
+
+// ai was given this prompt and genreated this code:
+/* make a function that calls openai's api using the key 'API_KEY' and the text prompt 'PROMPT' */
+// it had some declaration convention failures, only thing i changed
+function callOpenAI(API_KEY, PROMPT) {
+    const xhr = new XMLHttpRequest();
+    let response, text, div;
+    xhr.open('POST', 'https://api.openai.com/v1/engines/davinci/completions', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + API_KEY);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            response = JSON.parse(xhr.responseText);
+            text = response.choices[0].text;
+            div = document.createElement('div');
+            div.innerHTML = text;
+            document.body.appendChild(div);
+        }
+    };
+    xhr.send(
+        JSON.stringify({
+            prompt: PROMPT,
+            max_tokens: 100,
+            temperature: 0.7,
+            top_p: 0.9,
+            n: 1,
+            stream: false,
+            logprobs: null,
+            stop: ['\n'],
+        })
+    );
+}
