@@ -91,6 +91,8 @@ function clientPromptStage() {
         // push submitted prompt to supabase
         await sendPrompt(joinedGameID, promptInput.value);
         promptInput.value = '';
+        promptSubmitBtn.disabled = true;
+        promptSubmitBtn.textContent = 'submitted!';
     });
 }
 
@@ -104,6 +106,7 @@ function clientResponseStage(promptText) {
         await sendResponse(joinedGameID, input.value);
         input.value = '';
         submitButton.disabled = true;
+        submitButton.textContent = 'submitted!';
     });
 }
 
@@ -113,6 +116,7 @@ function clientGuessesStage(dataObj) {
     gameWindow.append(renderGuessesStageUI(dataObj.responses, dataObj.usernames));
     // grabbing DOM element and targeting form data
     const guessForm = document.querySelector('#guess-form');
+    const submitButton = document.querySelector('#guess-submit-button');
     // on submit, gather guess/user pairs and submit to host
     guessForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -130,6 +134,8 @@ function clientGuessesStage(dataObj) {
         }
         // send guess array to host
         await sendGuess(joinedGameID, guessArray);
+        submitButton.disabled = true;
+        submitButton.textContent = 'submitted!';
     });
 }
 
