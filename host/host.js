@@ -27,7 +27,7 @@ let gameStage = 'lobby';
 // hard code in the ai's presence
 const playersObject = { ai: { score: 0 } };
 const usernameArray = ['ai'];
-const promptArray = [];
+let promptArray = [];
 let responseArray = [];
 // i have no idea how to balance a game, TODO: anyone else pick better values
 const correctGuessAi = 200;
@@ -60,7 +60,6 @@ async function startButtonEventListener() {
     if (!openAPIKey) alert('Please input a key');
     // join host as player
     const hostUsernameEl = document.getElementById('host-username-input');
-    console.log(gameCode, hostUsernameEl.value);
     await attemptJoinGame(gameCode, hostUsernameEl.value);
 }
 
@@ -113,7 +112,6 @@ function subscribeToUserResponsesHandler(packet) {
 // kinda the main loop here
 // when the next button is clicked, check gameStage to determine what needs to be ran
 async function nextButtonHandler() {
-    console.log(gameStage);
     switch (gameStage) {
         case 'lobby':
             // stop allowing joins
@@ -124,8 +122,9 @@ async function nextButtonHandler() {
             gameStage = 'prompt';
             await sendPacket({}, 'prompt', gameId);
             break;
-        // end prompt stage
         case 'prompt':
+            // shuffle prompt array
+            promptArray = shuffleArray(promptArray);
             // move to the response stage
             gameStage = 'response';
             // call the start stage function
@@ -169,7 +168,9 @@ async function guessesStage() {
     // propogate the arrays with the raw list of usernames/responses-the local player/responseArray can't be sent out as they contain
     // objects with extra data(that would allow ppl to cheat with devtools/is just kinna messy tbh)
     state.usernames = usernameArray;
-    // PRESERVING ORDER IS IMPORTANT: the client will respond with an array of objects containing the index of the response and their
+    // shuffle the response array because the ai is always faster than humans, and first.
+    responseArray = shuffleArray(responseArray);
+    // but when sending out the array, PRESERVING ORDER IS IMPORTANT: the client will respond with an array of objects containing the index of the response and their
     // guess. so please don't rewrite this to scramble that.
     for (const item of responseArray) {
         state.responses.push(item.response);
@@ -231,4 +232,14 @@ function callOpenAI(API_KEY, PROMPT) {
             stop: ['\n'],
         })
     );
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const randNum = Math.floor(Math.random() * (i + 1));
+        const tempArr = array[i];
+        array[i] = array[randNum];
+        array[randNum] = tempArr;
+    }
+    return array;
 }
