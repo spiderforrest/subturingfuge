@@ -7,7 +7,7 @@ import {
     renderRoomCodeUI,
     renderClientRoomSettingsUI,
     renderHostRoomSettingsUI,
-    renderWhoSaidWhatUI,
+    renderScoreboard,
 } from '../render-utils.js';
 
 const gameWindow = document.getElementById('game-window');
@@ -35,4 +35,6 @@ clearGameWindow();
 // gameWindow.append(renderRoomCodeUI(6969));
 // gameWindow.append(renderHostRoomSettingsUI('dork'));
 
-gameWindow.append(renderWhoSaidWhatUI(fakePlayerList, fakeResponseList));
+let players = 'horse';
+
+gameWindow.append(renderScoreboard(players));

@@ -325,7 +325,7 @@ export function renderResultsPageUI(results) {
         responseEl.append(responseAuthor, responseText);
         // render, display, append users' guesses to response
         for (const [guessor, guessee] of Object.entries(response.guesses)) {
-            // if guessing on own guess, don't render to results
+            // if guessing on own response, don't render to results
             if (guessor === guessee) {
                 continue;
             }
@@ -338,6 +338,10 @@ export function renderResultsPageUI(results) {
                     response.username === 'ai'
                         ? ` +(${results.scoring.ai})`
                         : ` +(${results.scoring.human})`;
+                // check if someone misidentified AI as human
+            } else if (guessee !== 'ai' && response.username === 'ai') {
+                guessText.classList.add('results-page-ai-gain-points');
+                guessText.textContent += ' +(ai +400)';
             } else {
                 // otherwise, color red, show no points awarded
                 guessText.classList.add('results-page-incorrect-guess');
@@ -355,13 +359,15 @@ export function renderResultsPageUI(results) {
 }
 
 export function renderScoreboard(players) {
+    console.log('players object passed to scoreboard: ', players);
     // create elements
-    const uiBox = document.getElementById('div');
+    const uiBox = document.createElement('div');
     const h2 = document.createElement('h2');
-    const scoresEl = document.getElementById('ul');
+    const scoresEl = document.createElement('ul');
     // set contents
     h2.textContent = 'Scores:';
     // set classes
+    console.log(uiBox);
     uiBox.classList.add('ui-box-right-column-mid-bottom');
     uiBox.classList.add('flexbox-column-centered');
     // loop through players and create username/score objects

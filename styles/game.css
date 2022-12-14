@@ -111,6 +111,10 @@ main {
     color: lightcoral;
 }
 
+.results-page-ai-gain-points {
+    color: orangered;
+}
+
 label {
     text-align: center;
 }
