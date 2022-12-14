@@ -177,7 +177,7 @@ async function resultsStage() {
     for (const responseObject of responseArray) {
         console.log(responseObject);
         console.log(responseObject.guesses);
-        for (const [guesser, guess] of responseObject.guesses.entries()) {
+        for (const [guesser, guess] of Object.entries(responseObject.guesses)) {
             // check if the guess is right
             if (guess === responseObject.username) {
                 // add appropriate score
@@ -192,7 +192,8 @@ async function resultsStage() {
             scores: playersObject,
             scoring: { ai: correctGuessAi, human: correctGuessHuman },
         },
-        'results'
+        'results',
+        gameId
     );
 }
 async function endGame() {}
