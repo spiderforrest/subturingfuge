@@ -303,8 +303,36 @@ export function renderPromptTopUI(promptText) {
 export function renderResultsPageUI(results) {
     // create elements
     const uiBox = document.createElement('div');
-    // for each response, create a new div to display it
-    // for () {}
 
-    // }
+    // for each response, create a new div to display it
+    for (let response of results.answers) {
+        // for each response, create div that displays who guessed who for that response
+        const responseEl = document.createElement('div');
+        const responseText = document.createElement('h3');
+        const responseAuthor = document.createElement('h2');
+        responseAuthor.textContent = `${response.username}'s response:`;
+        responseEl.classList.add('results-page-response-box');
+        responseEl.classList.add('flexbox-column-centered');
+        responseText.textContent = response;
+        // render, display, append users' guesses to response
+        for (const [guessor, guessee] of response.guesses.entries()) {
+            const guessText = document.createElement('p');
+            guessText.textContent = `${guessor} guessed ${guessee}`;
+            // if user guessed correctly, color their guess green and append points awarded
+            if (guessee === response.username) {
+                guessText.classList.add('results-page-correct-guess');
+                guessText.textContent +=
+                    response.username === 'ai'
+                        ? `+(${results.scoring.ai})`
+                        : `+(${results.scoring.human})`;
+            }
+            responseEl.append(responseAuthor, responseText, guessText);
+            uiBox.append(responseEl);
+        }
+    }
+
+    // apply css classes
+    uiBox.classList.add('ui-box-middle-column-mid-bottom');
+
+    return uiBox;
 }

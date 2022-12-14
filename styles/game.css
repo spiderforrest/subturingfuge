@@ -90,6 +90,11 @@ main {
     padding: 2%;
     display: flex;
     flex-flow: column nowrap;
+    text-align: center;
+}
+
+.results-page-correct-guess {
+    color: lightgreen;
 }
 
 label {
