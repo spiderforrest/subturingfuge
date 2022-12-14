@@ -28,7 +28,7 @@ let promptArray = [];
 let responseArray = [];
 // i have no idea how to balance a game, TODO: anyone else pick better values
 const correctGuessAi = 200;
-const correctGuessUser = 75;
+const correctGuessHuman = 75;
 
 // initalization
 self.addEventListener('load', async () => {
@@ -99,12 +99,12 @@ function subscribeToUserResponsesHandler(packet) {
             break;
         case 'guess':
             // modify the response array's objects to hold each user's guess
-            console.log('guess packet recieved: ', packet);
-            for (const item in packet.guess) {
+            for (const item of packet.guesses) {
                 // i hate this
                 // i love this
                 // go to index item.id in the array, in that object there's an object named guesses, and in that object add guesserUsername:guess-eeUsername
-                responseArray[item.id].guesses[packet.username] = item.guess;
+                console.log(item);
+                responseArray[item.id].guesses[packet.username] = item.username;
                 // final structure of an item in responseArray: {uuid:, username:, response:, guesses:{playerXGuess:playerYUsername...}}
             }
             break;
@@ -175,15 +175,24 @@ async function resultsStage() {
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
     console.log(responseArray);
     for (const responseObject of responseArray) {
+        console.log(responseObject);
+        console.log(responseObject.guesses);
         for (const [guesser, guess] of responseObject.guesses.entries()) {
             // check if the guess is right
             if (guess === responseObject.username) {
                 // add appropriate score
-                playersObject[guesser] += guess === 'ai' ? correctGuessAi : correctGuessUser;
+                playersObject[guesser] += guess === 'ai' ? correctGuessAi : correctGuessHuman;
             }
         }
     }
     // send out packet with response:username pairs and the score
-    await sendPacket({ answers: responseArray, scores: playersObject }, 'results');
+    await sendPacket(
+        {
+            answers: responseArray,
+            scores: playersObject,
+            scoring: { ai: correctGuessAi, human: correctGuessHuman },
+        },
+        'results'
+    );
 }
 async function endGame() {}

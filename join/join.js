@@ -112,7 +112,6 @@ function clientGuessesStage(dataObj) {
     gameWindow.append(renderGuessesStageUI(dataObj.responses, dataObj.usernames));
     // grabbing DOM element and targeting form data
     const guessForm = document.querySelector('#guess-form');
-    const formData = new FormData(guessForm);
     // on submit, gather guess/user pairs and submit to host
     guessForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -120,8 +119,7 @@ function clientGuessesStage(dataObj) {
         const guessArray = [];
         // gather all of the response/guess pairs by getting each index from the response array
         for (const [index, _response] of dataObj.responses.entries()) {
-            console.log('targeted index: ', index);
-            console.log('fomdata: ', formData.get(index.toString()));
+            const formData = new FormData(guessForm);
             guessArray.push({
                 // use the index of the response as a response id
                 id: index,
