@@ -21,13 +21,14 @@ const headerBar = document.querySelector('.page-header');
 
 // state
 let gameCode, gameId, gameStage;
-const playersObject = {};
-const usernameArray = [];
+const playersObject = { ai: { score: 0 } };
+const usernameArray = ['ai'];
 const promptArray = [];
 let responseArray = [];
 // i have no idea how to balance a game, TODO: anyone else pick better values
 const correctGuessAi = 200;
 const correctGuessHuman = 75;
+let openAPIKey;
 
 // initalization
 self.addEventListener('load', async () => {
@@ -38,20 +39,19 @@ self.addEventListener('load', async () => {
     gameCode = generateGameCode();
     headerBar.append(renderHostControlBar(nextButtonHandler));
     gameWindow.append(renderRoomCodeUI(gameCode));
-    gameWindow.append(renderPlayerListUI(''));
+    gameWindow.append(renderPlayerListUI(usernameArray));
     // create the game
     const response = await createGame(gameCode);
     // i have no idea why supabase is doing this?
     gameId = response[0].id;
     // liek and subscrib
     await subscribeToUserJoins(gameId, subscribeToUserJoinsHandler);
-    // join AI as player
-
-    //
 });
 
 // launch the game
 async function startButtonEventListener() {
+    // get the key
+    openAPIKey = document.getElementById('api-key-input').value;
     // stop allowing joins
     await unsubscribeAll();
     // subscribe to user updates
@@ -144,6 +144,7 @@ async function responseStage() {
     // send out packet with prompt
     await sendPacket({ promptText: activePrompt }, 'response', gameId);
     // get the GPT response
+    callOpenAI(openAPIKey, activePrompt);
 }
 async function guessesStage() {
     // just reusing response array here, so no reset
@@ -193,7 +194,7 @@ async function endGame() {}
 // it had some declaration convention failures, only thing i changed
 function callOpenAI(API_KEY, PROMPT) {
     const xhr = new XMLHttpRequest();
-    let response, text, div;
+    let response, text;
     xhr.open('POST', 'https://api.openai.com/v1/engines/davinci/completions', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Authorization', 'Bearer ' + API_KEY);
@@ -201,9 +202,9 @@ function callOpenAI(API_KEY, PROMPT) {
         if (xhr.readyState === 4) {
             response = JSON.parse(xhr.responseText);
             text = response.choices[0].text;
-            div = document.createElement('div');
-            div.innerHTML = text;
-            document.body.appendChild(div);
+            console.log('ai response?', text);
+            // here i added the code to take the response and input it into the game state
+            subscribeToUserResponsesHandler({ username: 'ai', response: text });
         }
     };
     xhr.send(
