@@ -97,8 +97,9 @@ function subscribeToUserResponsesHandler(packet) {
                 guesses: {},
             });
             break;
-        case 'guesses':
+        case 'guess':
             // modify the response array's objects to hold each user's guess
+            console.log('guess packet recieved: ', packet);
             for (const item in packet.guess) {
                 // i hate this
                 // i love this
@@ -172,8 +173,8 @@ async function guessesStage() {
 async function resultsStage() {
     // hard part: tally everyone's scores
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
+    console.log(responseArray);
     for (const responseObject of responseArray) {
-        console.log(responseObject);
         for (const [guesser, guess] of responseObject.guesses.entries()) {
             // check if the guess is right
             if (guess === responseObject.username) {

@@ -120,11 +120,13 @@ function clientGuessesStage(dataObj) {
         const guessArray = [];
         // gather all of the response/guess pairs by getting each index from the response array
         for (const [index, _response] of dataObj.responses.entries()) {
+            console.log('targeted index: ', index);
+            console.log('fomdata: ', formData.get(index.toString()));
             guessArray.push({
                 // use the index of the response as a response id
                 id: index,
                 // fetch the associated response's username guess
-                username: formData.get(`${index}`),
+                username: formData.get(index.toString()),
             });
         }
         // send guess array to host

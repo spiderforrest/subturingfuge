@@ -246,11 +246,11 @@ function renderPlayerResponsePairs(playerList, response, index) {
     noGuessOption.textContent = '(No Guess)';
     noGuessOption.value = '';
     playerSelect.append(noGuessOption);
+    playerSelect.name = index;
     for (let player of playerList) {
         const playerOption = document.createElement('option');
         //add .username
         playerOption.textContent = player;
-        playerOption.name = index;
         playerOption.value = player;
         playerSelect.append(playerOption);
     }
@@ -304,9 +304,7 @@ export function renderResultsPageUI(results) {
     // create elements
     const uiBox = document.createElement('div');
     // for each response, create a new div to display it
-    for () {
+    // for () {}
 
-    }
-
-
+    // }
 }
