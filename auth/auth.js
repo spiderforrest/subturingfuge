@@ -11,7 +11,7 @@ if (user) location.replace('/');
 const authForm = document.getElementById('auth-form');
 const authHeader = authForm.querySelector('h2');
 const authButton = authForm.querySelector('button');
-const changeType = authForm.querySelector('a');
+const changeType = authForm.querySelector('.auth-a');
 const errorDisplay = authForm.querySelector('.error');
 
 /* let state */
