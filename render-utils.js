@@ -314,8 +314,13 @@ export function renderResultsPageUI(results) {
         responseEl.classList.add('results-page-response-box');
         responseEl.classList.add('flexbox-column-centered');
         responseText.textContent = response.response;
+        responseEl.append(responseAuthor, responseText);
         // render, display, append users' guesses to response
         for (const [guessor, guessee] of Object.entries(response.guesses)) {
+            // if guessing on own guess, don't render to results
+            if (guessor === guessee) {
+                continue;
+            }
             const guessText = document.createElement('p');
             guessText.textContent = `${guessor} guessed ${guessee}`;
             // if user guessed correctly, color their guess green and append points awarded
@@ -323,10 +328,14 @@ export function renderResultsPageUI(results) {
                 guessText.classList.add('results-page-correct-guess');
                 guessText.textContent +=
                     response.username === 'ai'
-                        ? `+(${results.scoring.ai})`
-                        : `+(${results.scoring.human})`;
+                        ? ` +(${results.scoring.ai})`
+                        : ` +(${results.scoring.human})`;
+            } else {
+                // otherwise, color red, show no points awarded
+                guessText.classList.add('results-page-incorrect-guess');
+                guessText.textContent += ' +(0)';
             }
-            responseEl.append(responseAuthor, responseText, guessText);
+            responseEl.append(guessText);
             uiBox.append(responseEl);
         }
     }

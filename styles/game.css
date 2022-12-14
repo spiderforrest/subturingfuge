@@ -83,6 +83,7 @@ main {
     flex-flow: row wrap;
     justify-content: space-evenly;
     align-items: space-evenly;
+    gap: 2%;
 }
 
 .results-page-response-box {
@@ -95,6 +96,10 @@ main {
 
 .results-page-correct-guess {
     color: lightgreen;
+}
+
+.results-page-incorrect-guess {
+    color: lightcoral;
 }
 
 label {
