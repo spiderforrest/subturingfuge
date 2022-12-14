@@ -78,6 +78,7 @@ export function renderResponseEntryUI(promptText) {
     promptDisplay.textContent = promptText;
     responseLabel.textContent = 'Enter your response: ';
     submitButton.textContent = 'Submit';
+    submitButton.id = 'response-submit-button';
     responseInput.id = 'response-input';
     responseInput.rows = '5';
     responseInput.cols = '40';
