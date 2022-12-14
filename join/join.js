@@ -75,7 +75,7 @@ function subscribeToHostPacketsHandler(packet) {
             clientGuessesStage(packet.state);
             break;
         case 'results':
-            // clientResultsStage();
+            clientResultsStage(packet.state);
             break;
     }
 }
@@ -133,8 +133,8 @@ function clientGuessesStage(dataObj) {
     });
 }
 
-function clientResultsStage(results) {
+function clientResultsStage(dataObj) {
     clearGameWindow();
     // pass incoming data to render function
-    gameWindow.append(renderResultsPageUI(results));
+    gameWindow.append(renderResultsPageUI(dataObj));
 }
