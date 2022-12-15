@@ -78,6 +78,8 @@ main {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+    height: 100%;
+    margin-top: 5%;
 }
 
 .menu-item {
