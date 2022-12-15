@@ -187,18 +187,19 @@ async function resultsStage() {
             if (responseObject.username === 'ai') {
                 // give ai points for tricking ppl
                 if (guess !== 'ai' || '') {
-                    playersObject.ai += trickedBonus;
+                    playersObject.ai.score += trickedBonus;
                 }
                 // if the response was written by a user:
             } else {
                 // check if the guess is right
                 if (guess === responseObject.username) {
                     // add appropriate score
-                    playersObject[guesser] += guess === 'ai' ? correctGuessAi : correctGuessHuman;
+                    playersObject[guesser].score +=
+                        guess === 'ai' ? correctGuessAi : correctGuessHuman;
                 }
                 // if the guess was ai, give the author the tricking bonus
                 if (guess === 'ai') {
-                    playersObject[responseObject.username] += trickedBonus;
+                    playersObject[responseObject.username].score += trickedBonus;
                 }
             }
         }
