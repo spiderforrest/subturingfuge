@@ -165,10 +165,10 @@ export function renderHostRoomSettingsUI(handler) {
     // create elements
     const uiBox = document.createElement('div');
     const h2 = document.createElement('h2');
-    const timerLabel = document.createElement('label');
-    const timerInput = document.createElement('input');
-    const roundsLabel = document.createElement('label');
-    const roundsInput = document.createElement('input');
+    // const timerLabel = document.createElement('label');
+    // const timerInput = document.createElement('input');
+    // const roundsLabel = document.createElement('label');
+    // const roundsInput = document.createElement('input');
     const usernameLabel = document.createElement('label');
     const usernameInput = document.createElement('input');
     const APIKeyLabel = document.createElement('label');
@@ -177,17 +177,17 @@ export function renderHostRoomSettingsUI(handler) {
 
     // set contents
     h2.textContent = 'Game Settings';
-    timerLabel.textContent = 'Timer: (dummied out)';
-    timerInput.disabled = true;
-    roundsLabel.textContent = 'Rounds: (dummied out)';
-    roundsInput.disabled = true;
+    // timerLabel.textContent = 'Timer: (dummied out)';
+    // timerInput.disabled = true;
+    // roundsLabel.textContent = 'Rounds: (dummied out)';
+    // roundsInput.disabled = true;
     usernameLabel.textContent = 'Username: ';
     usernameInput.id = 'host-username-input';
     usernameInput.type = 'text';
     APIKeyLabel.textContent = 'OpenAI API key: ';
     APIKeyInput.id = 'api-key-input';
     APIKeyInput.type = 'text';
-    startGameButton.textContent = 'START GAME';
+    startGameButton.textContent = 'JOIN GAME';
 
     // event listener
     startGameButton.addEventListener('click', async () => {
@@ -202,10 +202,10 @@ export function renderHostRoomSettingsUI(handler) {
     // append
     uiBox.append(
         h2,
-        timerLabel,
-        timerInput,
-        roundsLabel,
-        roundsInput,
+        // timerLabel,
+        // timerInput,
+        // roundsLabel,
+        // roundsInput,
         usernameLabel,
         usernameInput,
         APIKeyLabel,
@@ -234,7 +234,7 @@ export function renderGuessesStageUI(responseList, playerList) {
     uiBox.classList.add('flexbox-column-centered');
     // append
     // iterate through response list, render UI element for each, append to uiBox
-    for (let [index, response] of responseList.entries()) {
+    for (const [index, response] of responseList.entries()) {
         form.append(renderPlayerResponsePairs(playerList, response, index));
     }
     form.append(submitButton);
@@ -254,7 +254,7 @@ function renderPlayerResponsePairs(playerList, response, index) {
     noGuessOption.value = '';
     playerSelect.append(noGuessOption);
     playerSelect.name = index;
-    for (let player of playerList) {
+    for (const player of playerList) {
         const playerOption = document.createElement('option');
         //add .username
         playerOption.textContent = player;
@@ -313,7 +313,7 @@ export function renderResultsPageUI(results) {
     const uiBox = document.createElement('div');
 
     // for each response, create a new div to display it
-    for (let response of results.answers) {
+    for (const response of results.answers) {
         // for each response, create div that displays who guessed who for that response
         const responseEl = document.createElement('div');
         const responseText = document.createElement('h3');
@@ -362,7 +362,6 @@ export function renderResultsPageUI(results) {
 }
 
 export function renderScoreboard(players) {
-    console.log('players object passed to scoreboard: ', players);
     // create elements
     const uiBox = document.createElement('div');
     const h2 = document.createElement('h2');
@@ -370,7 +369,6 @@ export function renderScoreboard(players) {
     // set contents
     h2.textContent = 'Scores:';
     // set classes
-    console.log(uiBox);
     uiBox.classList.add('ui-box-right-column-mid');
     uiBox.classList.add('flexbox-column-top');
     // loop through players and create username/score objects
