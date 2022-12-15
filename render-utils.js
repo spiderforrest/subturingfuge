@@ -368,7 +368,6 @@ export function renderScoreboard(players) {
     // set contents
     h2.textContent = 'Scores:';
     // set classes
-    console.log(uiBox);
     uiBox.classList.add('ui-box-right-column-mid');
     uiBox.classList.add('flexbox-column-top');
     // loop through players and create username/score objects
