@@ -369,8 +369,8 @@ export function renderScoreboard(players) {
     h2.textContent = 'Scores:';
     // set classes
     console.log(uiBox);
-    uiBox.classList.add('ui-box-right-column-mid-bottom');
-    uiBox.classList.add('flexbox-column-centered');
+    uiBox.classList.add('ui-box-right-column-mid');
+    uiBox.classList.add('flexbox-column-top');
     // loop through players and create username/score objects
     for (const [username, obj] of Object.entries(players)) {
         // create score entry
