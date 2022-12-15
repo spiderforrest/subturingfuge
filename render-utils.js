@@ -343,10 +343,12 @@ export function renderResultsPageUI(results) {
             } else if (guessee !== 'ai' && response.username === 'ai') {
                 guessText.classList.add('results-page-ai-gain-points');
                 guessText.textContent += ' (ai +400)';
-            } else {
-                // otherwise, color red, show no points awarded
-                guessText.classList.add('results-page-incorrect-guess');
+            } else if (guessee === 'ai' && response.username !== 'ai') {
+                guessText.classList.add('results-page-user-tricked-user');
                 guessText.textContent += ` (${guessor} +0, ${response.username} +400)`;
+            } else {
+                guessText.classList.add('results-page-incorrect-guess');
+                guessText.textContent += ` (${guessor} +0)`;
             }
             responseEl.append(guessText);
             uiBox.append(responseEl);

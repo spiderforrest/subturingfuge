@@ -182,25 +182,22 @@ async function resultsStage() {
     // hard part: tally everyone's scores
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
     for (const responseObject of responseArray) {
-        for (const [guesser, guess] of Object.entries(responseObject.guesses)) {
-            // if the response was by the ai, reward it points when people guess it's human, and vise versa
-            if (responseObject.username === 'ai') {
-                // give ai points for tricking ppl
-                if (guess !== 'ai' || '') {
-                    playersObject.ai.score += trickedBonus;
-                }
-                // if the response was written by a user:
-            } else {
-                // check if the guess is right
-                if (guess === responseObject.username) {
-                    // add appropriate score
-                    playersObject[guesser].score +=
-                        guess === 'ai' ? correctGuessAi : correctGuessHuman;
-                }
-                // if the guess was ai, give the author the tricking bonus
-                if (guess === 'ai') {
-                    playersObject[responseObject.username].score += trickedBonus;
-                }
+        // guesseEE we gotta cook meth gusesSEE
+        for (const [guesser, guessee] of Object.entries(responseObject.guesses)) {
+            const author = responseObject.username;
+            // no points for guessing yourself
+            if (guesser === author) continue;
+
+            // if user guessed correctly, award them dynamic correct points
+            if (guessee === author) {
+                playersObject[guesser].score +=
+                    guessee === 'ai' ? correctGuessAi : correctGuessHuman;
+                // else, check if someone misidentified AI as human
+            } else if (guessee !== 'ai' && author === 'ai') {
+                playersObject.ai.score += trickedBonus;
+                // else, check if someone misidentified human as AI
+            } else if (guessee === 'ai' && author !== 'ai') {
+                playersObject[author].score += trickedBonus;
             }
         }
     }
