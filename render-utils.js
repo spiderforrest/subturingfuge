@@ -334,18 +334,19 @@ export function renderResultsPageUI(results) {
             // if user guessed correctly, color their guess green and append points awarded
             if (guessee === response.username) {
                 guessText.classList.add('results-page-correct-guess');
+                // was ai correctly identified? if so, award points for that, otherwise points for id-ing human
                 guessText.textContent +=
                     response.username === 'ai'
-                        ? ` +(${results.scoring.ai})`
-                        : ` +(${results.scoring.human})`;
+                        ? ` (${guessor} +${results.scoring.ai})`
+                        : ` (${guessor} +${results.scoring.human})`;
                 // check if someone misidentified AI as human
             } else if (guessee !== 'ai' && response.username === 'ai') {
                 guessText.classList.add('results-page-ai-gain-points');
-                guessText.textContent += ' +(ai +400)';
+                guessText.textContent += ' (ai +400)';
             } else {
                 // otherwise, color red, show no points awarded
                 guessText.classList.add('results-page-incorrect-guess');
-                guessText.textContent += ' +(0)';
+                guessText.textContent += ` (${guessor} +0, ${response.username} +400)`;
             }
             responseEl.append(guessText);
             uiBox.append(responseEl);
