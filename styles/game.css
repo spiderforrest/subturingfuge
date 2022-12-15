@@ -133,6 +133,10 @@ main {
     color: orange;
 }
 
+.results-page-user-tricked-user {
+    color: lightblue;
+}
+
 label {
     text-align: center;
 }
