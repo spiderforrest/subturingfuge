@@ -186,7 +186,7 @@ export function renderHostRoomSettingsUI(handler) {
     usernameInput.type = 'text';
     APIKeyLabel.textContent = 'OpenAI API key: ';
     APIKeyInput.id = 'api-key-input';
-    APIKeyInput.type = 'text';
+    APIKeyInput.type = 'password';
     startGameButton.textContent = 'JOIN GAME';
 
     // event listener
