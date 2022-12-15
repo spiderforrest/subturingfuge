@@ -81,6 +81,10 @@ main {
     color: rgb(93, 93, 93);
 }
 
+a {
+    text-decoration: none;
+}
+
 a:visited {
     color: white;
 }
