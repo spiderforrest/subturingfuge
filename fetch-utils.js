@@ -88,14 +88,12 @@ export async function sendPacket(packet, gameStage, gameID) {
 
 // client function
 export async function subscribeToHostPackets(gameCode, handler) {
-    console.log(gameCode, handler);
     const response = await client
         .from(`games:room_code=eq.${gameCode}`)
         .on('UPDATE', (payload) => {
             handler(payload.new);
         })
         .subscribe();
-    console.log(response);
 }
 
 export async function joinGame(gameCode, username) {
