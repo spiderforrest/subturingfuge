@@ -279,6 +279,7 @@ export function renderHostControlBar(handler) {
     const nextButton = document.createElement('button');
     // set contents
     nextButton.textContent = 'NEXT';
+    nextButton.id = 'next-button';
     // event listener
     nextButton.addEventListener('click', () => {
         handler();
