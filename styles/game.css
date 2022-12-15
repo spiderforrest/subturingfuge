@@ -63,12 +63,24 @@ main {
     grid-row: 2/4;
     border: thick double black;
 }
+.ui-box-right-column-mid {
+    background-color: #171717;
+    grid-column: 3/4;
+    grid-row: 2/4;
+    border: thick double black;
+}
 
 .flexbox-column-centered {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: space-around;
+}
+
+.flexbox-column-top {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }
 
 .flexbox-column-left-justified {
