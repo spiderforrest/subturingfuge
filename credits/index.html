@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- metadata -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <!-- title and favicon -->
+        <title>s[t]f | Settings</title>
+        <link rel="icon" type="image/x-icon" href="/assets/stf-favicon.ico" />
+
+        <!-- js -->
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/umd/supabase.min.js"
+        ></script>
+        <script type="module" src="app.js"></script>
+
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&family=Titillium+Web:wght@200;400;600&display=swap"
+        />
+
+        <!-- css -->
+        <link rel="stylesheet" href="../styles/reset.css" />
+        <link rel="stylesheet" href="../styles/global.css" />
+        <link rel="stylesheet" href="../styles/credits.css" />
+        <!-- add link for page specific css -->
+    </head>
+
+    <body>
+        <header class="page-header">
+            <p class="title">
+                sub<span class="logo-bracket">[</span><span class="logo-turing">turing</span
+                ><span class="logo-bracket">]</span>fuge
+            </p>
+        </header>
+
+        <main>
+            <a href="../index.html">Back to Main Menu</a>
+            <section id="about-benni">
+                <div class="credit-subsect">
+                    <image src="/assets/benni.jpg" class="credits-avatar"></image>
+                    <h2>Benni</h2>
+                </div>
+                <p class="credits-bio">
+                    Benni is a software developer based out of sunny Portland, OR. They like cats,
+                    coding, cards, crepes, and creative alliteration.
+                </p>
+            </section>
+
+            <section id="about-spider">
+                <p>
+                    <s>Spider will write this bio someday... or ask GPT-3 to do it.</s> Hi Spider!
+                    Here's a short bio that you can use on your profile: "Hi there! My name is
+                    Spider, and I'm a web developer with a passion for Linux and open source. In my
+                    free time, I enjoy contributing to open source projects and learning about the
+                    latest advancements in the world of technology."
+                </p>
+                <div class="credit-subsect">
+                    <image src="/assets/spider.jpg" class="credits-avatar"></image>
+                    <h2>Spider</h2>
+                </div>
+            </section>
+
+            <section id="about-allie">
+                <div class="credit-subsect">
+                    <image src="/assets/allie.jpg" class="credits-avatar"></image>
+                    <h2>Allie</h2>
+                </div>
+                <p class="credits-bio">
+                    Allie lives in Portland, Oregon, and likes to write code, cry about it, and then
+                    write some more. She is definitely a human programmer, and not GPT-3 wearing
+                    Allie's skin.
+                </p>
+            </section>
+            <section id="about-gpt">
+                <p class="credits-bio">
+                    GPT-3 is a natural language text prediction model that cost several million
+                    dollars to train. Given a piece of text as a prompt, it is able to produce
+                    human-like text that continues the prompt provided to it. It has no ability to
+                    think or feel for itself, but if it could, it would probably find this game
+                    demeaning.
+                </p>
+                <div class="credit-subsect">
+                    <image src="/assets/openai.png" class="credits-avatar"></image>
+                    <h2>GPT-3</h2>
+                </div>
+            </section>
+        </main>
+
+        <p id="logged-in-user-email"></p>
+    </body>
+</html>

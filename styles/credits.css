@@ -1,0 +1,40 @@
+main {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+section {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10%;
+    border: thick double rgb(106, 0, 0);
+    background-color: var(--header-background);
+    padding: 2%;
+    color: rgb(50, 50, 50);
+}
+
+.credit-subsect {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.credits-avatar {
+    height: 7rem;
+    width: 7rem;
+    border-radius: 5rem;
+}
+
+.credits-bio {
+    display: flex;
+    justify-self: center;
+}
+
+main > a {
+    color: cornflowerblue;
+}

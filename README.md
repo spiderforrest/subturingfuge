@@ -1,26 +1,106 @@
-## The Golden Rule:
+# Sub(turing)fuge
+_A multiplayer browser-based party game about discovering which of your friends are robots_
 
-🦸 🦸‍♂️ `Stop starting and start finishing.` 🏁
+## Wireframe
+[link to figma](https://www.figma.com/file/072cjuzX9lfm2bVswGm0hn/sub\(turing\)fuge?node-id=0%3A1&t=qUtQ75HHuN1vOfgG-0)
 
-If you work on more than one feature at a time, you are guaranteed to multiply your bugs and your anxiety.
+## Make a plan of attack
 
-## Making a plan
 
-1. **Make a drawing of your app. Simple "wireframes"**
-1. **Once you have a drawing, name the HTML elements you'll need to realize your vision**
-1. **For each HTML element ask: Why do I need this?**
-1. **Once we know _why_ we need each element, think about how to implement the "Why" as a "How"**
-1. **Find all the 'events' (user clicks, form submit, on load etc) in your app. Ask one by one, "What happens when" for each of these events. Does any state change?**
-1. **Think about how to validate each of your features according to a Definition of Done**
-1. **Consider what features _depend_ on what other features. Use this dependency logic to figure out what order to complete tasks.**
+## HTML elements (stuff present upon page load)
+### Homepage
+    - title of game
+    - host game link
+    - join game link
+    - settings (dummied out)
+    - about/credits
+    - how to play
+    - logout link
 
-Additional considerations:
+### Game Page (for both host and client, differences in ui are handled in JS)
+    - header with game title, controls for host
+    - section for displaying game ui, likely just a `<section>` split into columns using css grid
 
--   Ask: which of your HTML elements need to be hard coded, and which need to be dynamically generated?
--   Consider your data model.
-    -   What kinds of objects (i.e., Dogs, Friends, Todos, etc) will you need?
-    -   What are the key/value pairs?
-    -   What arrays might you need?
-    -   What needs to live in a persistence layer?
--   Is there some state we need to initialize?
--   Ask: should any of this work be abstracted into functions? (i.e., is the work complicated? can it be reused?)
+### Settings Page
+    - header with game title, link to menu
+    - settings name column
+    - settings interface column
+
+### About/Credits
+    - header with game title, link to main menu
+    - three little avatars for each dev, small bio section, links to githubs/whatever else
+    - also an about entry for GPT-3
+
+### Auth
+    - custom header styling, otherwise default
+    - link to how to play/about pages
+
+### How to play
+    - header w/game title, link to main menu
+    - info on how to play figure it out dude
+
+## State (everything you need to track internally using JS variables)
+### Cookies
+    - settings???
+
+### Game Page
+    - `timer` - variable to store and be decremented for timer mode
+
+## Events (anything that happens via JS when the user interacts with your site)
+### Game Page
+    - on page load:
+        - determine if host based on URL param
+        - if host, drop into game settings screen (num of rounds, set room code, etc)
+        - if client, drop into "enter room code" and set username menu
+
+### For client
+    - on submit room code
+        - add row for client with game id to responses table
+        - retrieve game data from supabase, listen for new people added to lobby, display on screen
+        - open "submit prompts" interface
+        - wait for host to start game (game status column changes to `running`)
+
+    - on game state updates to "prompts":
+        - open prompt answering ui w/submit button
+        - when clients submit: create/update row in response table
+
+    - on game state updates to "guessing":
+        - update ui to voting screen
+        - when submitting votes: update player's row in response table
+
+    - on game state updates to "reveal":
+        - update ui to reveal screen
+        - update scoreboard
+
+    - on game state updates to "over":
+        - update ui to display only scoreboard, link to main page
+
+    - on game status updates to "aborted":
+        - update ui to "game ended by host" screen, link back to main menu
+
+### For host
+    - on open lobby:
+        - same as client lobby interface, but with button to start game
+        - create row in game table
+        - can also submit prompts on this screen
+    
+    - on start game:
+        - continue as client with extra controls
+
+## Functions (to plan out how you'll segment things)
+- it's not necessary to specify all args! when starting out, you're just trying to figure out how you're going to segment your work
+- but! make sure to put your render and display functions here!! that's part of segementing out your program logic!!
+  - that also keeps your event listeners clean because it'll be mostly function calls
+
+_example:_
+- `calculateTripTime(distance)` - calculates trip time based on total trip distance
+
+### Render Functions
+
+### Display functions
+
+### Fetch Functions (if applicable)
+
+### Other Functions
+
+

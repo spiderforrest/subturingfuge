@@ -1,0 +1,171 @@
+main {
+    /* width: 100%; */
+    display: grid;
+    grid-template-rows: 1fr 4fr 1fr;
+    grid-template-columns: 2fr 4fr 2fr;
+    gap: 3%;
+    color: white;
+}
+
+.ui-box-center {
+    background-color: #171717;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    border: thick double black;
+}
+
+.ui-box-top-right {
+    background-color: #171717;
+    grid-column: 3/4;
+    grid-row: 1/2;
+    border: thick double black;
+}
+
+.ui-box-left-side {
+    background-color: #171717;
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+    border: thick double black;
+}
+
+.ui-box-bottom {
+    background-color: #171717;
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    border: thick double black;
+}
+
+.ui-box-middle-column-full {
+    background-color: #171717;
+    grid-column: 2/3;
+    grid-row: 1/4;
+    border: thick double black;
+}
+
+.ui-box-middle-column-mid-bottom {
+    background-color: #171717;
+    grid-column: 2/3;
+    grid-row: 2/4;
+    border: thick double black;
+    padding: 8% 2% 8% 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.ui-box-middle-column-top {
+    background-color: #171717;
+    grid-column: 2/3;
+    grid-row: 1/2;
+    border: thick double black;
+    text-align: center;
+}
+
+.ui-box-right-column-mid-bottom {
+    background-color: #171717;
+    grid-column: 3/4;
+    grid-row: 2/4;
+    border: thick double black;
+}
+.ui-box-right-column-mid {
+    background-color: #171717;
+    grid-column: 3/4;
+    grid-row: 2/3;
+    border: thick double black;
+}
+
+.flexbox-column-centered {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.flexbox-column-top {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.flexbox-column-left-justified {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.player-response-pair-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    border: thin solid gray;
+    margin: 1%;
+    gap: 10%;
+    width: 100%;
+    padding-right: 10%;
+}
+
+.results-page-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: space-evenly;
+    gap: 1rem;
+}
+
+.results-page-response-box {
+    border: thin solid gray;
+    padding: 2%;
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: center;
+    margin: 2%;
+}
+
+.results-page-correct-guess {
+    color: lightgreen;
+}
+
+.results-page-incorrect-guess {
+    color: lightcoral;
+}
+
+.results-page-ai-gain-points {
+    color: orange;
+}
+
+.results-page-user-tricked-user {
+    color: lightblue;
+}
+
+label {
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+li {
+    margin-bottom: 10%;
+}
+
+#roomcode-input {
+    text-transform: uppercase;
+}
+
+#guess-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#guess-submit-button {
+    width: fit-content;
+}
+
+#next-button {
+    position: fixed;
+    right: 1%;
+    top: 1%;
+}

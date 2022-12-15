@@ -11,7 +11,7 @@ form:not(.inline) {
 }
 
 label {
-    font-family: 'Titillium Web';
+    /* font-family: 'Titillium Web'; */
     font-size: 0.9em;
     font-weight: bold;
     color: var(--label-color);
@@ -46,7 +46,7 @@ form *::placeholder {
 form textarea {
     height: 70px;
     padding: 5px;
-    font-family: 'Rubik';
+    /* font-family: 'Rubik'; */
     resize: vertical;
 }
 
