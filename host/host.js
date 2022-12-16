@@ -182,7 +182,7 @@ async function resultsStage() {
     // hard part: tally everyone's scores
     // unpack modified responseArray-see function guessesStage and nextButton.handler for details
     for (const responseObject of responseArray) {
-        // guesseEE we gotta cook meth gusesSEE
+        // guesseEE it's me waltuh from the hit show breaking bad GUESSEE
         for (const [guesser, guessee] of Object.entries(responseObject.guesses)) {
             const author = responseObject.username;
             // no points for guessing yourself
