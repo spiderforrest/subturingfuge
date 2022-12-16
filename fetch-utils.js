@@ -6,7 +6,12 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 /* Auth related functions */
 
 function catchError(response) {
-    return response.error ? console.error(response.error) : response.data;
+    if (response.error) {
+        console.error(response.error);
+        return response;
+    } else {
+        return response;
+    }
 }
 
 export function checkAuth() {
