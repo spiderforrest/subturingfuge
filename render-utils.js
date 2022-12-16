@@ -344,9 +344,11 @@ export function renderResultsPageUI(results) {
             } else if (guessee !== 'ai' && response.username === 'ai') {
                 guessText.classList.add('results-page-ai-gain-points');
                 guessText.textContent += ' (ai +400)';
+                // check if someone misidentified human as ai
             } else if (guessee === 'ai' && response.username !== 'ai') {
                 guessText.classList.add('results-page-user-tricked-user');
                 guessText.textContent += ` (${guessor} +0, ${response.username} +400)`;
+                // no points for you, chump
             } else {
                 guessText.classList.add('results-page-incorrect-guess');
                 guessText.textContent += ` (${guessor} +0)`;
