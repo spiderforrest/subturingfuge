@@ -4,10 +4,8 @@ import {
     renderPromptEntryUI,
     renderResponseEntryUI,
     renderGuessesStageUI,
-    renderPlayerListUI,
     renderRoomCodeUI,
     renderClientRoomSettingsUI,
-    renderHostRoomSettingsUI,
     renderResultsPageUI,
     renderPromptTopUI,
     renderScoreboard,
@@ -64,7 +62,9 @@ export async function attemptJoinGame(code, username) {
     }
 }
 
+// main handler for managing incoming packets
 function subscribeToHostPacketsHandler(packet) {
+    // check stage and call appropriate functions
     switch (packet.game_status) {
         // prompt stage
         case 'prompt':
@@ -102,6 +102,7 @@ function clientResponseStage(promptText) {
     // rendering
     clearGameWindow();
     gameWindow.append(renderResponseEntryUI(promptText));
+    // send response packet and disable
     const submitButton = document.getElementById('response-submit-button');
     const input = document.getElementById('response-input');
     submitButton.addEventListener('click', async () => {
@@ -144,8 +145,8 @@ function clientGuessesStage(dataObj) {
 
 function clientResultsStage(dataObj) {
     clearGameWindow();
-    gameWindow.append(renderPromptTopUI(currentPrompt));
     // pass incoming data to render function
+    gameWindow.append(renderPromptTopUI(currentPrompt));
     gameWindow.append(renderResultsPageUI(dataObj));
     gameWindow.append(renderScoreboard(dataObj.scores));
 }
